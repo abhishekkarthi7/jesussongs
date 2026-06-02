@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jesus Songs & Lyrics | Premium Christian Worship Portal</title>
+  <title>Jesus Songs | Christian Lyrics Library</title>
   
   <!-- SEO Optimization Meta Tags -->
-  <meta name="description" content="Discover worship songs, praise songs, gospel songs, and inspirational lyrics that bring you closer to God. Beautifully curated dual-language Jesus songs library.">
-  <meta name="keywords" content="Jesus Songs, Christian Lyrics, Telugu Worship Songs, Gospel Songs, Songs Played by AV, Christian Devotional">
-  <meta name="author" content="AV">
+  <meta name="description" content="Discover worship songs, praise songs, gospel songs, and inspirational lyrics that bring you closer to God. Beautifully curated Jesus songs library.">
+  <meta name="keywords" content="Jesus Songs, Christian Lyrics, Telugu Worship Songs, Gospel Songs">
+  <meta name="author" content="Abhishek">
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2965/2965318.png">
 
-  <!-- Google Fonts: Inter for UI, Noto Sans Telugu for Script -->
+  <!-- Google Fonts: Quicksand for clean UI, Noto Sans Telugu for Script -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Noto+Sans+Telugu:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -33,19 +33,18 @@
   <div class="heavenly-light-source"></div>
   <div class="cloud-overlay"></div>
 
-  <!-- Transparent Sticky Header Navigation -->
+  <!-- Transparent Sticky Header Navigation (Clean Logo Only) -->
   <header id="appHeader">
     <div class="nav-container">
       <a href="#" class="logo-group">
         <span class="logo-main">Jesus Songs</span>
-        <span class="logo-sub">Songs Played by AV</span>
       </a>
       
       <!-- Right Side language Switcher Tabs -->
       <nav class="nav-controls">
         <div class="language-tabs" id="languageTabs">
-          <button class="lang-tab active" data-lang="telugu" id="btnLangTelugu">Telugu</button>
-          <button class="lang-tab" data-lang="english" id="btnLangEnglish">English</button>
+          <button class="lang-tab active" data-lang="english" id="btnLangEnglish">English</button>
+          <button class="lang-tab" data-lang="telugu" id="btnLangTelugu">Telugu</button>
         </div>
       </nav>
     </div>
@@ -122,35 +121,40 @@
         </p>
       </div>
 
-      <!-- About Icons Cards Grid -->
+      <!-- About Cards Grid with Custom Images -->
       <div class="about-icons-grid">
+        
         <div class="about-card glass-card">
-          <div class="about-card-icon gold-glow">
-            <i class="fa-solid fa-hands-praying"></i>
+          <div class="about-card-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=600" alt="Worship" class="about-card-img">
+            <div class="about-card-icon-overlay"><i class="fa-solid fa-hands-praying"></i></div>
           </div>
           <h3>Worship</h3>
           <p>Express praise, thankfulness, and deep reverence to God with music that humbles the heart.</p>
         </div>
         
         <div class="about-card glass-card">
-          <div class="about-card-icon blue-glow">
-            <i class="fa-solid fa-music"></i>
+          <div class="about-card-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=600" alt="Praise" class="about-card-img">
+            <div class="about-card-icon-overlay"><i class="fa-solid fa-music"></i></div>
           </div>
           <h3>Praise</h3>
           <p>Sing joyous and uplifting anthems celebrating His marvelous works and saving grace.</p>
         </div>
 
         <div class="about-card glass-card">
-          <div class="about-card-icon gold-glow">
-            <i class="fa-solid fa-dove"></i>
+          <div class="about-card-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1544764200-d834fd210a23?q=80&w=600" alt="Prayer" class="about-card-img">
+            <div class="about-card-icon-overlay"><i class="fa-solid fa-dove"></i></div>
           </div>
           <h3>Prayer</h3>
           <p>Let music bridge the gaps of your heart, communicating directly with God in times of need.</p>
         </div>
 
         <div class="about-card glass-card">
-          <div class="about-card-icon blue-glow">
-            <i class="fa-solid fa-book-bible"></i>
+          <div class="about-card-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1504052434569-70ad585e515d?q=80&w=600" alt="Bible Study" class="about-card-img">
+            <div class="about-card-icon-overlay"><i class="fa-solid fa-book-bible"></i></div>
           </div>
           <h3>Bible</h3>
           <p>Meditate on scripture-inspired lyrics that anchor your faith in the eternal Word of God.</p>
@@ -197,33 +201,20 @@
       </div>
     </section>
 
-    <!-- Premium Rectangular Footer Card -->
+    <!-- Average-sized Rectangular Footer Card -->
     <footer class="app-footer">
-      <div class="premium-footer-card glass-card">
-        <div class="footer-card-glow"></div>
-        
-        <div class="footer-left">
-          <span class="footer-tagline">Made with Faith and Love</span>
-          <h3 class="developer-tag">Developed by AV</h3>
+      <div class="developer-rect-card glass-card">
+        <div class="rect-left">
+          <span class="rect-tagline">Made with Faith and Love</span>
+          <h3 class="rect-developer">Developed by AV</h3>
         </div>
-        
-        <div class="footer-actions">
-          <a href="https://av-portfolio.example.com" target="_blank" class="footer-btn btn-portfolio" id="portfolioLink">
-            Portfolio <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        <div class="rect-divider"></div>
+        <div class="rect-right">
+          <a href="https://abhishek-portfolio.example.com" target="_blank" class="portfolio-btn" id="portfolioLink">
+            Visit Abhishek Portfolio <i class="fa-solid fa-arrow-up-right-from-square"></i>
           </a>
-          <button class="footer-btn btn-contact" id="btnContact">
-            Contact <i class="fa-solid fa-envelope"></i>
-          </button>
-        </div>
-        
-        <div class="footer-right-socials">
-          <a href="https://instagram.com" target="_blank" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="https://youtube.com" target="_blank" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-          <a href="https://facebook.com" target="_blank" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="mailto:contact@av.example.com" class="social-icon" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
         </div>
       </div>
-      
       <p class="copyright-note">Jesus Songs Worship Directory © 2026. All rights devoted to the Lord.</p>
     </footer>
 
