@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentLyricsFontSize = parseFloat(localStorage.getItem('lyricFontSize')) || 1.15; // in rem
   let activeSong = null;
   let activeCategory = 'all';
-  let activeLang = 'telugu'; // 'telugu' or 'english'
+  let activeLang = 'english'; // 'telugu' or 'english'
   let searchQuery = '';
   let favoriteSongs = JSON.parse(localStorage.getItem('fav_jesus_songs')) || [];
 
@@ -55,41 +55,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveSongBtn = document.getElementById('saveSongBtn');
   
   // Footer card items
-  const btnContact = document.getElementById('btnContact');
+  const btnContact = null;
 
   // --- 1. DYNAMIC TRANSLATION DICTIONARY ---
   const TRANSLATIONS = {
     telugu: {
-      heroTitle: "యేసు గీతాలు & సాహిత్యం",
-      heroSubtitle: "దేవునికి మిమ్ములను మరింత దగ్గర చేసే ఆరాధన పాటలు, స్తుతి గీతాలు మరియు ఆత్మీయ కీర్తనల సాహిత్యాన్ని ఇక్కడ వెతకండి.",
-      searchPlaceholder: "పాటలు, సాహిత్యం, వర్గాలను వెతకండి...",
+      heroTitle: "Jesus Songs & Lyrics",
+      heroSubtitle: "Discover worship songs, praise songs, gospel songs, and inspirational lyrics that bring you closer to God.",
+      searchPlaceholder: "Search songs, lyrics, worship songs...",
       worshipTitle: "Why Jesus Songs?",
-      worshipDesc: "యేసు పాటలు విశ్వాసులను ఆరాధించడానికి, ప్రార్థించడానికి, దేవుని వాక్యాన్ని ధ్యానించడానికి మరియు వారి విశ్వాసాన్ని బలపరుచుకోవడానికి సహాయపడతాయి. సంగీతం మరియు సాహిత్యం ద్వారా ప్రజలు ఆదరణను, నెమ్మదిని మరియు ఆత్మీయ ఎదుగుదలను అనుభవించవచ్చు.",
-      countLabel: "లభించే మొత్తం పాటలు: ",
-      addSongBtn: "నూతన కీర్తనను చేర్చు",
-      searchBtnText: "వెతుకు",
-      noSongsTitle: "పాటలు లభించలేదు",
-      noSongsDesc: "మీరు వెతికిన పదానికి సరిపోయే పాటలు ఏవీ లభించలేదు. దయచేసి వేరే పదాన్ని ఉపయోగించండి.",
-      readBtnText: "సాహిత్యం చదువు",
-      lyricsActionsLabel: "పాట టూల్స్:",
-      textSizeLabel: "అక్షరాల పరిమాణం:",
-      copyLyricsBtn: "కాపీ చేయి",
-      shareLyricsBtn: "షేర్ చేయి",
-      footerTagline: "భక్తి మరియు ప్రేమతో...",
-      developerTag: "రూపకల్పన: AV",
-      portfolioBtn: "పోర్ట్‌ఫోలియో",
-      contactBtn: "సంప్రదించండి",
+      worshipDesc: "Jesus songs help believers worship, pray, meditate on God's word, and strengthen their faith. Through lyrics and music, people can experience encouragement, peace, hope, and spiritual growth.",
+      countLabel: "Songs Available: ",
+      addSongBtn: "Add Custom Song",
+      searchBtnText: "Search",
+      noSongsTitle: "No Songs Found",
+      noSongsDesc: "We couldn't find any songs matching your search term. Please try another query.",
+      readBtnText: "View Lyrics",
+      lyricsActionsLabel: "Lyrics Options:",
+      textSizeLabel: "Text Size:",
+      copyLyricsBtn: "Copy Lyrics",
+      shareLyricsBtn: "Share",
+      footerTagline: "Made with Faith and Love",
+      developerTag: "Developed by AV",
+      portfolioBtn: "Portfolio",
+      contactBtn: "Contact",
       categories: {
-        "all": "అన్నీ (All Songs)",
-        "Worship Songs": "ఆరాధన గీతాలు",
-        "Praise Songs": "స్తుతి గీతాలు",
-        "Gospel Songs": "సువార్త పాటలు",
-        "Prayer Songs": "ప్రార్థన గీతాలు",
-        "Christmas Songs": "క్రిస్మస్ కీర్తనలు",
-        "Revival Songs": "ఉజ్జీవ గీతాలు",
-        "Youth Songs": "యౌవన గీతాలు",
-        "Telugu Songs": "తెలుగు పాటలు",
-        "English Songs": "ఇంగ్లీష్ పాటలు"
+        "all": "All Songs",
+        "Worship Songs": "Worship Songs",
+        "Praise Songs": "Praise Songs",
+        "Gospel Songs": "Gospel Songs",
+        "Prayer Songs": "Prayer Songs",
+        "Christmas Songs": "Christmas Songs",
+        "Revival Songs": "Revival Songs",
+        "Youth Songs": "Youth Songs",
+        "Telugu Songs": "Telugu Songs",
+        "English Songs": "English Songs"
       }
     },
     english: {
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCanvasParticles();
     
     // D. Load active language preferences from memory if any
-    activeLang = localStorage.getItem('appLang') || 'telugu';
+    activeLang = localStorage.getItem('appLang') || 'english';
     
     // E. Perform initial rendering
     applyLanguageSwitch();
@@ -260,10 +260,14 @@ document.addEventListener('DOMContentLoaded', () => {
     searchTriggerBtn.textContent = dict.searchBtnText;
     
     // Footer translations
-    document.querySelector('.footer-tagline').textContent = dict.footerTagline;
-    document.querySelector('.developer-tag').textContent = dict.developerTag;
-    document.querySelector('.btn-portfolio').innerHTML = `${dict.portfolioBtn} <i class="fa-solid fa-arrow-up-right-from-square"></i>`;
-    btnContact.innerHTML = `${dict.contactBtn} <i class="fa-solid fa-envelope"></i>`;
+    const taglineEl = document.querySelector('.rect-tagline');
+    if (taglineEl) taglineEl.textContent = dict.footerTagline;
+    
+    const developerEl = document.querySelector('.rect-developer');
+    if (developerEl) developerEl.textContent = dict.developerTag;
+    
+    const portfolioEl = document.querySelector('.portfolio-btn');
+    if (portfolioEl) portfolioEl.innerHTML = `${dict.portfolioBtn} <i class="fa-solid fa-arrow-up-right-from-square"></i>`;
     
     // Re-render categories layout
     renderCategoryFilters(dict.categories);
@@ -306,17 +310,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Filter matching criteria
     const filtered = allSongs.filter(song => {
-      // 1. Language Filter checks
-      let matchLanguage = true;
-      if (activeCategory === 'Telugu Songs') {
-        matchLanguage = song.id.startsWith('custom') || (song.lyricsTelugu && !song.id.includes('english-only'));
-      } else if (activeCategory === 'English Songs') {
-        matchLanguage = song.lyricsEnglish && song.titleEnglish;
+      // 1. Language Filter: filter based on activeLang
+      let matchLanguage = false;
+      if (activeLang === 'telugu') {
+        matchLanguage = !!(song.titleTelugu && song.lyricsTelugu);
+      } else {
+        matchLanguage = !!(song.titleEnglish && song.lyricsEnglish);
       }
       
       // 2. Category filters
       let matchCategory = true;
-      if (activeCategory !== 'all' && activeCategory !== 'Telugu Songs' && activeCategory !== 'English Songs') {
+      if (activeCategory !== 'all') {
         matchCategory = (song.categoryEnglish || '').toLowerCase() === activeCategory.toLowerCase();
       }
       
@@ -344,7 +348,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Update statistics banner count
-    songCountEl.textContent = allSongs.length;
+    if (songCountEl) {
+      songCountEl.textContent = filtered.length;
+    }
     
     // Empty songs library grid view
     songsGrid.innerHTML = '';
@@ -378,16 +384,26 @@ document.addEventListener('DOMContentLoaded', () => {
         
       const languageBadge = song.lyricsEnglish ? "English / Telugu" : "Telugu Script";
 
+      const defaultImage = "https://images.unsplash.com/photo-1438029071396-1e831a7fa6d8?q=80&w=600";
+      const songImage = song.imageUrl || defaultImage;
+
       card.innerHTML = `
-        <div class="song-card-header">
-          <span class="song-category-tag">${displayCategory || 'Worship'}</span>
-          <span class="song-lang-tag">${languageBadge}</span>
+        <div class="song-card-img-wrapper">
+          <img src="${songImage}" alt="${displayTitle}" class="song-card-img">
+          <div class="song-card-header-overlay">
+            <span class="song-category-tag">${displayCategory || 'Worship'}</span>
+          </div>
         </div>
-        <h3 class="song-card-title">${displayTitle}</h3>
-        <p class="song-card-desc">${shortDesc}</p>
-        <div class="song-card-footer">
-          <span class="song-card-artist"><i class="fa-solid fa-microphone"></i> ${displayArtist || 'AV'}</span>
-          <button class="song-read-btn">${dict.readBtnText}</button>
+        <div class="song-card-body">
+          <div class="song-card-meta-row">
+            <span class="song-lang-tag">${languageBadge}</span>
+          </div>
+          <h3 class="song-card-title">${displayTitle}</h3>
+          <p class="song-card-desc">${shortDesc}</p>
+          <div class="song-card-footer">
+            <span class="song-card-artist"><i class="fa-solid fa-microphone"></i> ${displayArtist || 'AV'}</span>
+            <button class="song-read-btn">${dict.readBtnText}</button>
+          </div>
         </div>
       `;
       
@@ -717,7 +733,9 @@ document.addEventListener('DOMContentLoaded', () => {
     copyLyricsBtn.addEventListener('click', copyLyricsToClipboard);
     shareLyricsBtn.addEventListener('click', shareLyrics);
     favoriteSongBtn.addEventListener('click', toggleFavorite);
-    printLyricsBtn.addEventListener('click', () => window.print());
+    if (printLyricsBtn) {
+      printLyricsBtn.addEventListener('click', () => window.print());
+    }
 
     // Add Song modal events
     addSongBtn.addEventListener('click', openAddSongModal);
@@ -732,11 +750,6 @@ document.addEventListener('DOMContentLoaded', () => {
     addSongForm.addEventListener('submit', (e) => {
       e.preventDefault();
       handleSaveSong();
-    });
-
-    // Contact button action
-    btnContact.addEventListener('click', () => {
-      alert('For prayer requests or songs addition enquiries, please write to: contact@av.example.com');
     });
   }
 

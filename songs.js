@@ -11,6 +11,7 @@ const INITIAL_SONGS = [
     descriptionEnglish: "A beautiful, serene worship song expressing God's faithfulness, based on Psalm 23.",
     key: "F Major",
     tempo: "72 BPM",
+    imageUrl: "https://images.unsplash.com/photo-1509316975850-ff9c5edd0cd9?q=80&w=600",
     lyricsTelugu: `యెహోవా నా కాపరి నాకు లేమి లేదు
 ఆయన పచ్చిక గల చోట్ల నన్ను పరుండజేయుచున్నాడు
 
@@ -60,6 +61,7 @@ Chirakaalamu Jehova Mandiramulo Nenu Nivaasamu Chesedanu`
     descriptionEnglish: "A touching song of praise expressing deep gratitude for Christ's unconditional saving love.",
     key: "G Major",
     tempo: "80 BPM",
+    imageUrl: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=600",
     lyricsTelugu: `యేసయ్యా నీ ప్రేమను నే పాడెదన్
 జీవితాంతము నీ కృపను కీర్తించెదన్
 నా ప్రాణేశ్వరా నా రక్షకుడా
@@ -111,6 +113,7 @@ Nee Mahima Korakai Nannu Vaadukonumu`
     descriptionEnglish: "An uplifting adoration hymn extolling Jesus as Lord across all generations and ages.",
     key: "D Major",
     tempo: "70 BPM",
+    imageUrl: "https://images.unsplash.com/photo-1544764200-d834fd210a23?q=80&w=600",
     lyricsTelugu: `ఎన్ని యుగాలకైనా నీవే నా దేవుడవు
 ఎన్ని తరాలకైనా నీవే నా రక్షకుడవు
 నా శరణము నీవే నా ఆశ్రయము నీవే
@@ -162,6 +165,7 @@ Yugayugamulu Neeve Naa Devudavu`
     descriptionEnglish: "A lively praise anthem celebrating the triumphant entry of Jesus, our saving King.",
     key: "E Minor",
     tempo: "95 BPM",
+    imageUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=600",
     lyricsTelugu: `హోసన్నా హోసన్నా హోసన్నా
 హోసన్నా నీ నామమునకే స్తోత్రము
 మహోన్నతుడైన దేవునికి స్తోత్రము
@@ -213,6 +217,7 @@ Nee Naamamu Nirantharamu Keerthinchedamu`
     descriptionEnglish: "A deep devotional prayer song petitioning the Lord to dwell and guide our lives.",
     key: "C Major",
     tempo: "68 BPM",
+    imageUrl: "https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=600",
     lyricsTelugu: `నాలో నివసించు నా యేసయ్యా
 నా హృదయ మందిరము నీదేనయ్యా
 నీవు లేనిదే నేను బ్రతుకలేనయ్యా
@@ -264,6 +269,7 @@ Nammakangaa Nenu Saagipoyedanu`
     descriptionEnglish: "A joyful and celebratory Christmas carol proclaiming the birth of Jesus, the Savior.",
     key: "G Major",
     tempo: "90 BPM",
+    imageUrl: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?q=80&w=600",
     lyricsTelugu: `యేసు క్రీస్తు జన్మించెను లోకానికి - హల్లెలూయా
 రక్షకుడుదయించెను మన కొరకు - హల్లెలూయా
 గోవుల తొట్టెలో పవళించెను - పరమ రాజు
@@ -305,6 +311,7 @@ Sadaakaalamu Keerthinchedamu Aayana Parishuddha Naamamune`
     descriptionEnglish: "A powerful revival prayer song asking for spiritual awakening and holy enthusiasm.",
     key: "A Minor",
     tempo: "84 BPM",
+    imageUrl: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=600",
     lyricsTelugu: `నూతన ఉత్తేజముతో నింపుమయ్యా
 నూతన అభిషేకము మాకియ్యుమయ్యా
 ఆత్మీయ ఉజ్జీవముతో నింపి మమ్ము
@@ -346,6 +353,7 @@ Nee Naamamunu Ghanaparacha Bhaagyamimmu`
     descriptionEnglish: "An inspirational youth-focused song urging youngsters to devote their lives to their Creator.",
     key: "E Major",
     tempo: "78 BPM",
+    imageUrl: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?q=80&w=600",
     lyricsTelugu: `యవ్వన కాలములో సృష్టికర్తను స్మరించుము
 దుర్దినములు రాకముందే ప్రభువును చేరుము
 ఇదే మిక్కిలి అనుకూల సమయము

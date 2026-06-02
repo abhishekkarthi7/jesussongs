@@ -153,7 +153,7 @@
 
         <div class="about-card glass-card">
           <div class="about-card-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1504052434569-70ad585e515d?q=80&w=600" alt="Bible Study" class="about-card-img">
+            <img src="https://images.unsplash.com/photo-1507444930787-91575e24a040?q=80&w=600" alt="Bible Study" class="about-card-img">
             <div class="about-card-icon-overlay"><i class="fa-solid fa-book-bible"></i></div>
           </div>
           <h3>Bible</h3>
@@ -181,14 +181,14 @@
         <button class="filter-pill" data-filter="Telugu Songs">Telugu Songs</button>
         <button class="filter-pill" data-filter="English Songs">English Songs</button>
       </div>
+
+      <p class="songs-stats-text" style="text-align: center; color: var(--color-text-muted); font-size: 0.85rem; margin-top: 1rem; font-weight: 300;">
+        Songs matching current view: <span id="songCount">0</span>
+      </p>
     </section>
 
     <!-- Song Library Grid -->
     <section class="song-library-section" id="library">
-      <div class="section-title-wrapper text-center">
-        <h2 class="section-heading">Featured Song Library</h2>
-      </div>
-
       <div class="songs-grid" id="songsGrid">
         <!-- Rendered dynamically by app.js -->
       </div>
@@ -227,8 +227,8 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <div class="modal-header-info">
-          <h2 class="modal-title" id="modalSongTitle">యెహోవా నా కాపరి</h2>
-          <span class="modal-meta" id="modalSongMeta">Telugu • Worship Songs</span>
+          <h2 class="modal-title" id="modalSongTitle">Song Lyrics</h2>
+          <span class="modal-meta" id="modalSongMeta">Worship Songs</span>
         </div>
         
         <div class="modal-header-controls">
@@ -250,6 +250,9 @@
           </button>
           <button class="btn-tool btn-tool-text" id="shareLyricsBtn">
             <i class="fa-solid fa-share-nodes"></i> Share
+          </button>
+          <button class="btn-tool btn-tool-text" id="printLyricsBtn" title="Print Lyrics">
+            <i class="fa-solid fa-print"></i> Print
           </button>
         </div>
         <div class="toolbar-group">
