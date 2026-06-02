@@ -1,38 +1,42 @@
 /* 
-   Jesus Telugu Songs - Celestial Light Design System
-   Theme: Glowing Cross Background, Glassmorphism, Divine Gold Lights
-   Typography: Outfit & Noto Sans Telugu (Ultra-Sleek, Low Boldness, No Italics/Cursive)
+   Jesus Songs - Premium Obsidian Dark & Luxury Gold Style
+   Design System: Inspired by SBR Photo
+   Typography: Outfit & Noto Sans Telugu (Clean, Sleek Sans-Serif, Low Boldness, No Italics/Cursive)
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@300;400;500;600&family=Outfit:wght@200;300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@300;400;500;600&family=Outfit:wght@200;300;400;500;600&display=swap');
 
 :root {
-  --bg-primary: #040308;
-  --bg-secondary: rgba(16, 12, 28, 0.4);
-  --bg-tertiary: #100c1c;
+  /* Obsidian Dark Palette */
+  --color-bg-primary: #070709;
+  --color-bg-secondary: #0f0f13;
+  --color-bg-card: rgba(18, 18, 24, 0.6);
+  --color-border-glow: rgba(223, 183, 108, 0.12);
   
-  --color-gold: #f3c75f;
-  --color-gold-hover: #ffe29a;
-  --color-gold-muted: rgba(243, 199, 95, 0.08);
-  --color-gold-glow: rgba(243, 199, 95, 0.25);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #6b6b75;
   
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #64748b;
+  --color-gold: #dfb76c;
+  --color-gold-hover: #f5d493;
+  --color-gold-muted: rgba(223, 183, 108, 0.08);
+  --color-gold-glow: rgba(223, 183, 108, 0.2);
   
   --font-ui: 'Outfit', sans-serif;
   --font-telugu: 'Noto Sans Telugu', sans-serif;
   
-  --glass-border: rgba(255, 255, 255, 0.05);
-  --glass-border-hover: rgba(243, 199, 95, 0.2);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
   
-  --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  --border-radius-lg: 16px;
-  --border-radius-md: 12px;
-  --border-radius-sm: 6px;
+  --transition-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  
+  --shadow-premium: 0 15px 35px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px rgba(223, 183, 108, 0.08);
 }
 
-/* Reset & Scrollbars */
+/* Reset & Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -40,19 +44,34 @@
 }
 
 body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
   font-family: var(--font-ui);
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.6;
+  position: relative;
+}
+
+/* Very subtle top golden ambient light */
+.luxury-bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1200px;
+  height: 500px;
+  background: radial-gradient(circle at 50% 0%, rgba(223, 183, 108, 0.06) 0%, transparent 65%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: var(--color-bg-primary);
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.05);
@@ -62,190 +81,132 @@ body {
   background: var(--color-gold-muted);
 }
 
-/* --- DIVINE GLOWING CROSS BACKGROUND --- */
-.divine-bg-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -2;
-  overflow: hidden;
-  background: radial-gradient(circle at 50% 30%, #0d091e 0%, var(--bg-primary) 70%);
-  pointer-events: none;
-}
-
-.celestial-cross {
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  height: 450px;
-  opacity: 0.85;
-}
-
-.cross-beam {
-  position: absolute;
-  background: linear-gradient(180deg, rgba(243, 199, 95, 0.15) 0%, rgba(243, 199, 95, 0.03) 100%);
-  border: 1px solid rgba(243, 199, 95, 0.12);
-  border-radius: 4px;
-  box-shadow: 
-    0 0 30px rgba(243, 199, 95, 0.05),
-    inset 0 0 15px rgba(243, 199, 95, 0.02);
-}
-
-.cross-beam.vertical {
-  left: 50%;
-  top: 0;
-  width: 18px;
-  height: 100%;
-  transform: translateX(-50%);
-}
-
-.cross-beam.horizontal {
-  left: 0;
-  top: 25%;
+/* --- HEADER NAVIGATION (SBR PHOTO STYLE) --- */
+#main-header {
   width: 100%;
-  height: 18px;
+  padding: 40px 24px 20px 24px;
+  background: transparent;
+  position: relative;
+  z-index: 100;
 }
 
-/* Divine pulsing light bloom behind the cross */
-.divine-glow {
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(243, 199, 95, 0.18) 0%, rgba(99, 102, 241, 0.08) 45%, transparent 70%);
-  filter: blur(10px);
-  z-index: -1;
-  animation: pulseDivine 8s ease-in-out infinite alternate;
-}
-
-@keyframes pulseDivine {
-  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
-  100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.95; }
-}
-
-/* --- APP CONTAINER LAYOUT --- */
-.app-container {
+.nav-container-centered {
   max-width: 900px;
   margin: 0 auto;
-  padding: 4rem 1.5rem;
-  position: relative;
-  z-index: 1;
-}
-
-/* Header & Hero Section */
-header {
-  text-align: center;
-  margin-bottom: 3.5rem;
-}
-
-h1 {
-  font-family: var(--font-ui);
-  font-size: 2.8rem;
-  font-weight: 300; /* Sleek, thin weight */
-  letter-spacing: 0.5px;
-  margin-bottom: 0.75rem;
-  color: var(--text-primary);
-  text-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
-}
-
-.sub-title {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
-  font-weight: 300; /* Elegant light weight */
-  max-width: 580px;
-  margin: 0 auto 1.5rem auto;
-  line-height: 1.5;
-}
-
-/* Header Action Buttons */
-.header-actions {
   display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
 }
 
-.btn-header {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-secondary);
-  padding: 0.65rem 1.5rem;
-  border-radius: var(--border-radius-md);
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  font-weight: 400; /* Clean and light */
-  cursor: pointer;
-  display: inline-flex;
+.logo-centered {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  line-height: 1;
+}
+
+.logo-main-centered {
+  font-size: 2.2rem;
+  font-weight: 300; /* Ultra-thin sleek look */
+  letter-spacing: 0.35em;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  margin-right: -0.35em;
+}
+
+.logo-sub-centered {
+  font-size: 0.62rem;
+  letter-spacing: 0.45em;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  margin-top: 10px;
+  font-weight: 600;
+  margin-right: -0.45em;
+}
+
+/* Nav Links Centered (View Tabs) */
+.nav-links-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 35px;
+  list-style: none;
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 16px;
+}
+
+.nav-links-centered a {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  position: relative;
+  padding: 6px 0;
+  transition: var(--transition-fast);
+}
+
+.nav-links-centered a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-gold);
   transition: var(--transition-smooth);
 }
 
-.btn-header:hover {
-  background: var(--color-gold-muted);
-  border-color: rgba(243, 199, 95, 0.3);
+.nav-links-centered a:hover,
+.nav-links-centered a.active {
   color: var(--color-gold);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(243, 199, 95, 0.08);
 }
 
-/* Song Stats Counter */
-.stats-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  color: var(--text-muted);
-  padding: 0.4rem 1.1rem;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 300;
-  letter-spacing: 0.2px;
+.nav-links-centered a.active::after,
+.nav-links-centered a:hover::after {
+  width: 100%;
 }
 
-.stats-badge span {
-  color: var(--color-gold);
-  font-weight: 500;
+/* --- APP LAYOUT CONTAINER --- */
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
 }
 
-/* Search Box Area */
+/* Search Bar Area */
 .search-wrapper {
-  max-width: 650px;
-  margin: 0 auto 2.5rem auto;
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
 }
 
 .search-bar-container {
   display: flex;
   align-items: center;
-  background: rgba(16, 12, 28, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-glow);
   border-radius: 50px;
   padding: 0.4rem 0.5rem 0.4rem 1.4rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  box-shadow: var(--shadow-premium);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: var(--transition-smooth);
 }
 
 .search-bar-container:focus-within {
-  border-color: rgba(243, 199, 95, 0.3);
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(243, 199, 95, 0.12);
-  background: rgba(22, 18, 40, 0.7);
+  border-color: rgba(223, 183, 108, 0.35);
+  box-shadow: var(--shadow-premium), var(--shadow-glow);
+  background: rgba(20, 20, 26, 0.8);
 }
 
 .search-icon {
-  color: var(--text-muted);
+  color: var(--color-text-muted);
   margin-right: 0.8rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   flex-shrink: 0;
 }
 
@@ -253,22 +214,22 @@ h1 {
   background: transparent;
   border: none;
   outline: none;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   width: 100%;
   font-family: var(--font-ui);
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 300;
 }
 
 .search-input::placeholder {
-  color: var(--text-muted);
+  color: var(--color-text-muted);
 }
 
 .clear-search-btn {
   background: transparent;
   border: none;
-  color: var(--text-muted);
-  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
   cursor: pointer;
   padding: 0.4rem;
   border-radius: 50%;
@@ -276,32 +237,31 @@ h1 {
   align-items: center;
   justify-content: center;
   margin-right: 0.5rem;
-  transition: var(--transition-smooth);
 }
 
 .clear-search-btn:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-primary);
 }
 
 .search-button {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-primary);
-  padding: 0.7rem 1.6rem;
+  background: transparent;
+  border: 1px solid var(--color-border-glow);
+  color: var(--color-gold);
+  padding: 0.65rem 1.5rem;
   border-radius: 50px;
   font-family: var(--font-ui);
   font-weight: 400;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   cursor: pointer;
   transition: var(--transition-smooth);
+  letter-spacing: 0.05em;
 }
 
 .search-button:hover {
-  background: linear-gradient(135deg, var(--color-gold), #c9a13b);
-  color: #040308;
+  background: var(--color-gold);
+  color: var(--color-bg-primary);
   border-color: transparent;
-  box-shadow: 0 4px 12px rgba(243, 199, 95, 0.2);
+  box-shadow: var(--shadow-glow);
 }
 
 /* Category Filters */
@@ -316,11 +276,11 @@ h1 {
 .filter-badge {
   background: rgba(255, 255, 255, 0.01);
   border: 1px solid rgba(255, 255, 255, 0.04);
-  color: var(--text-secondary);
-  padding: 0.5rem 1.1rem;
+  color: var(--color-text-secondary);
+  padding: 0.45rem 1.1rem;
   border-radius: 50px;
   font-family: var(--font-ui);
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   font-weight: 300;
   cursor: pointer;
   transition: var(--transition-smooth);
@@ -333,62 +293,67 @@ h1 {
 
 .filter-badge.active {
   background: var(--color-gold-muted);
-  border-color: rgba(243, 199, 95, 0.4);
+  border-color: var(--color-gold);
   color: var(--color-gold);
   font-weight: 400;
 }
 
-/* Main Display Area (Song Grid) */
+/* Song Grid */
 .songs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
-  margin-bottom: 4rem;
+  margin-bottom: 3.5rem;
 }
 
 .no-results-card {
   grid-column: 1 / -1;
   text-align: center;
   padding: 4rem 2rem;
-  background: var(--bg-secondary);
-  border: 1px dashed rgba(255, 255, 255, 0.06);
-  border-radius: var(--border-radius-lg);
+  background: var(--color-bg-secondary);
+  border: 1px dashed var(--color-border-glow);
+  border-radius: var(--radius-md);
   backdrop-filter: blur(10px);
 }
 
 .no-results-card i {
-  font-size: 3rem;
-  color: var(--text-muted);
-  margin-bottom: 1.25rem;
+  font-size: 2.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
   opacity: 0.5;
 }
 
 .no-results-card h3 {
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   font-weight: 300;
   margin-bottom: 0.4rem;
 }
 
 .no-results-card p {
-  color: var(--text-muted);
-  font-weight: 300;
+  color: var(--color-text-muted);
   font-size: 0.95rem;
+  font-weight: 300;
 }
 
 /* Individual Song Card */
 .song-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--border-radius-lg);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-glow);
+  border-radius: var(--radius-md);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   height: 100%;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: var(--transition-smooth);
-  position: relative;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-premium);
+}
+
+.song-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(223, 183, 108, 0.3);
+  box-shadow: var(--shadow-premium), var(--shadow-glow);
 }
 
 .song-card-header {
@@ -399,34 +364,38 @@ h1 {
 }
 
 .song-category {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--color-gold);
-  background: rgba(243, 199, 95, 0.05);
-  border: 1px solid rgba(243, 199, 95, 0.1);
-  padding: 0.25rem 0.65rem;
+  background: var(--color-gold-muted);
+  border: 1px solid rgba(223, 183, 108, 0.15);
+  padding: 0.2rem 0.6rem;
   border-radius: 50px;
   font-weight: 400;
 }
 
 .song-key {
-  font-size: 0.75rem;
-  color: var(--text-muted);
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
   font-weight: 300;
 }
 
 .song-title-telugu {
   font-family: var(--font-telugu);
-  font-size: 1.2rem;
+  font-size: 1.18rem;
   font-weight: 500;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   margin-bottom: 0.3rem;
   line-height: 1.45;
-  transition: var(--transition-smooth);
+  transition: var(--transition-fast);
+}
+
+.song-card:hover .song-title-telugu {
+  color: var(--color-gold);
 }
 
 .song-title-english {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
   margin-bottom: 1.25rem;
   font-weight: 300;
 }
@@ -441,54 +410,72 @@ h1 {
 }
 
 .song-artist {
-  font-size: 0.8rem;
-  color: var(--text-muted);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
   font-weight: 300;
 }
 
 .read-btn {
-  background: rgba(255, 255, 255, 0.02);
+  background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  color: var(--text-secondary);
-  padding: 0.4rem 0.9rem;
-  border-radius: var(--border-radius-md);
+  color: var(--color-text-secondary);
+  padding: 0.38rem 0.85rem;
+  border-radius: var(--radius-sm);
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 400;
   cursor: pointer;
-  transition: var(--transition-smooth);
-}
-
-/* Hover effects */
-.song-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--glass-border-hover);
-  box-shadow: 
-    0 15px 30px rgba(0, 0, 0, 0.35),
-    0 0 15px rgba(243, 199, 95, 0.05);
-}
-
-.song-card:hover .song-title-telugu {
-  color: var(--color-gold);
+  transition: var(--transition-fast);
 }
 
 .song-card:hover .read-btn {
   background: var(--color-gold);
-  color: #040308;
+  color: var(--color-bg-primary);
   border-color: transparent;
-  box-shadow: 0 4px 10px rgba(243, 199, 95, 0.2);
+  box-shadow: var(--shadow-glow);
 }
 
-/* Sliding Lyric Modal Overlay */
+/* Action Center (Add Song Button alignment) */
+.action-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 3.5rem;
+}
+
+.btn-add-song {
+  background: transparent;
+  border: 1px solid var(--color-border-glow);
+  color: var(--color-gold);
+  padding: 0.65rem 1.6rem;
+  border-radius: var(--radius-md);
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition-smooth);
+}
+
+.btn-add-song:hover {
+  background: var(--color-gold-muted);
+  border-color: var(--color-gold);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* --- INTERACTIVE LYRICS SHEET MODAL --- */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(4, 3, 8, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(5, 5, 7, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   z-index: 1000;
   display: flex;
   justify-content: flex-end;
@@ -504,11 +491,11 @@ h1 {
 
 .modal-content {
   width: 100%;
-  max-width: 620px;
+  max-width: 600px;
   height: 100%;
-  background: #0b0816;
-  border-left: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7);
+  background: var(--color-bg-secondary);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
@@ -519,7 +506,6 @@ h1 {
   transform: translateX(0);
 }
 
-/* Modal Header */
 .modal-header {
   padding: 1.5rem 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -536,24 +522,24 @@ h1 {
 
 .modal-title-telugu {
   font-family: var(--font-telugu);
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   font-weight: 500;
   color: var(--color-gold);
 }
 
 .modal-title-english {
-  font-size: 1rem;
-  color: var(--text-secondary);
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
   font-weight: 300;
 }
 
 .close-modal-btn {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   font-size: 1.1rem;
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -568,10 +554,9 @@ h1 {
   color: #f87171;
 }
 
-/* Modal Toolbar */
 .modal-toolbar {
   background: rgba(255, 255, 255, 0.01);
-  padding: 0.8rem 2rem;
+  padding: 0.75rem 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   justify-content: space-between;
@@ -587,28 +572,27 @@ h1 {
 }
 
 .toolbar-label {
-  font-size: 0.75rem;
-  color: var(--text-muted);
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  font-weight: 400;
+  letter-spacing: 0.5px;
 }
 
 .btn-tool {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  color: var(--text-primary);
-  width: 32px;
-  height: 32px;
-  border-radius: var(--border-radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--color-text-primary);
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-family: var(--font-ui);
   font-weight: 400;
-  transition: var(--transition-smooth);
+  transition: var(--transition-fast);
 }
 
 .btn-tool:hover {
@@ -623,7 +607,6 @@ h1 {
   gap: 0.4rem;
 }
 
-/* Lyrics Body Display */
 .lyrics-body-container {
   flex-grow: 1;
   padding: 2.5rem 2rem;
@@ -632,8 +615,8 @@ h1 {
 
 .lyrics-display {
   font-family: var(--font-telugu);
-  font-size: 1.15rem;
-  line-height: 2.2;
+  font-size: 1.12rem;
+  line-height: 2.1;
   color: #f1f5f9;
   white-space: pre-line;
   text-align: center;
@@ -646,16 +629,16 @@ h1 {
   margin-bottom: 1.5rem;
 }
 
-/* --- DYNAMIC ADD SONG FORM MODAL --- */
+/* --- ADD SONG MODAL --- */
 .form-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(4, 3, 8, 0.85);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  background: rgba(5, 5, 7, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -672,10 +655,10 @@ h1 {
 
 .form-modal-content {
   width: 90%;
-  max-width: 580px;
-  background: #0f0c1b;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--border-radius-lg);
+  max-width: 550px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-glow);
+  border-radius: var(--radius-lg);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
@@ -699,7 +682,7 @@ h1 {
 
 .form-modal-title {
   font-family: var(--font-ui);
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: var(--color-gold);
   font-weight: 400;
 }
@@ -717,29 +700,28 @@ h1 {
   display: block;
   font-size: 0.85rem;
   font-weight: 400;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   margin-bottom: 0.4rem;
-  letter-spacing: 0.2px;
 }
 
 .form-control {
   width: 100%;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--border-radius-md);
-  color: var(--text-primary);
-  padding: 0.7rem 1rem;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  padding: 0.65rem 0.95rem;
   font-family: var(--font-ui);
   font-size: 0.95rem;
   font-weight: 300;
-  transition: var(--transition-smooth);
+  transition: var(--transition-fast);
 }
 
 .form-control:focus {
   outline: none;
-  border-color: rgba(243, 199, 95, 0.3);
-  box-shadow: 0 0 12px rgba(243, 199, 95, 0.15);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(223, 183, 108, 0.35);
+  box-shadow: 0 0 10px rgba(223, 183, 108, 0.15);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 textarea.form-control {
@@ -759,133 +741,177 @@ textarea.form-control {
 
 .btn-cancel {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  color: var(--text-secondary);
-  padding: 0.65rem 1.3rem;
-  border-radius: var(--border-radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--color-text-secondary);
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-md);
   font-weight: 400;
   cursor: pointer;
-  transition: var(--transition-smooth);
+  transition: var(--transition-fast);
 }
 
 .btn-cancel:hover {
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .btn-save {
   background: var(--color-gold);
-  color: #040308;
+  color: var(--color-bg-primary);
   border: none;
-  padding: 0.65rem 1.5rem;
-  border-radius: var(--border-radius-md);
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radius-md);
   font-weight: 500;
   cursor: pointer;
-  transition: var(--transition-smooth);
-  box-shadow: 0 4px 10px rgba(243, 199, 95, 0.15);
+  transition: var(--transition-fast);
+  box-shadow: 0 4px 10px rgba(223, 183, 108, 0.15);
 }
 
 .btn-save:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 15px rgba(243, 199, 95, 0.3);
+  box-shadow: 0 6px 15px rgba(223, 183, 108, 0.3);
 }
 
-/* --- FOOTER & ABHISHEK PORTFOLIO CARD --- */
-footer {
+/* --- FOOTER & DEVELOPER BANNER (AVERAGE SIZE RECTANGLE) --- */
+.app-footer {
   text-align: center;
   padding: 3.5rem 0 2rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--color-text-muted);
 }
 
-.portfolio-card {
-  display: inline-flex;
-  flex-direction: column;
+.developer-rect-card {
+  position: relative;
+  display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.01);
-  border: 1px solid rgba(243, 199, 95, 0.08);
-  padding: 1rem 2rem;
-  border-radius: var(--border-radius-lg);
-  margin-bottom: 2rem;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  width: 100%;
+  max-width: 580px; /* Perfect Average Size */
+  margin: 0 auto 2rem auto;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-glow);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 2.2rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-premium);
   transition: var(--transition-smooth);
 }
 
-.portfolio-tagline {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 0.25rem;
-  font-weight: 300;
+.rect-left {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
 }
 
-.portfolio-link {
-  font-size: 0.95rem;
+.rect-logo-main {
+  font-size: 1.25rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  margin-right: -0.15em;
+}
+
+.rect-logo-sub {
+  font-size: 0.5rem;
+  letter-spacing: 0.25em;
   color: var(--color-gold);
+  text-transform: uppercase;
+  margin-top: 4px;
+  font-weight: 600;
+  margin-right: -0.25em;
+}
+
+.rect-divider {
+  width: 1px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 0 1.5rem;
+}
+
+.rect-right {
+  display: flex;
+  align-items: center;
+}
+
+.portfolio-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text-primary);
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
   font-weight: 400;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   transition: var(--transition-smooth);
+  letter-spacing: 0.05em;
 }
 
-.portfolio-link i {
+/* Hover effects for average rect */
+.developer-rect-card:hover {
+  border-color: rgba(223, 183, 108, 0.35);
+  box-shadow: var(--shadow-premium), var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.developer-rect-card:hover .portfolio-btn {
+  background: var(--color-gold);
+  color: var(--color-bg-primary);
+  border-color: transparent;
+  box-shadow: var(--shadow-glow);
+}
+
+.footer-copyright {
   font-size: 0.8rem;
-  opacity: 0.7;
-}
-
-.portfolio-card:hover {
-  border-color: rgba(243, 199, 95, 0.35);
-  background: rgba(243, 199, 95, 0.03);
-  transform: translateY(-3px);
-  box-shadow: 
-    0 12px 30px rgba(0, 0, 0, 0.2),
-    0 0 15px rgba(243, 199, 95, 0.06);
-}
-
-.portfolio-card:hover .portfolio-link {
-  color: var(--color-gold-hover);
-}
-
-.footer-note {
-  font-size: 0.82rem;
   font-weight: 200;
   letter-spacing: 0.3px;
 }
 
-/* Responsive Breakpoints */
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  h1 {
-    font-size: 2.2rem;
+  .logo-main-centered {
+    font-size: 1.8rem;
   }
   .app-container {
-    padding: 2.5rem 1rem;
+    padding: 1.5rem 1rem;
   }
   .songs-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
-  .modal-content {
-    max-width: 100%;
+  .developer-rect-card {
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1.2rem;
   }
-  .lyrics-body-container {
-    padding: 2rem 1rem;
+  .rect-left {
+    text-align: center;
   }
-  .modal-header {
-    padding: 1.25rem 1rem;
+  .rect-divider {
+    display: none;
+  }
+  .rect-right {
+    width: 100%;
+    justify-content: center;
+  }
+  .portfolio-btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
-/* Print Overrides - clean sans-serif */
+/* Print Overrides */
 @media print {
   body {
     background: white !important;
     color: black !important;
     font-family: sans-serif !important;
   }
-  .app-container, header, .search-wrapper, .filters-container, .songs-grid, footer, .modal-overlay, .divine-bg-container {
+  .app-container, header, .search-wrapper, .filters-container, .songs-grid, footer, .modal-overlay, .luxury-bg-overlay {
     display: none !important;
   }
   

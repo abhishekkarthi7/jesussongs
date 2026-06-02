@@ -1,6 +1,6 @@
 /**
- * Jesus Telugu Songs Web Application
- * Core Logic & State Management
+ * Jesus Songs Web Application
+ * Core Logic & State Management (SBR Style Centered Tabs Layout)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,14 +10,24 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentLyricsFontSize = parseFloat(localStorage.getItem('lyricFontSize')) || 1.15; // in rem
   let activeSong = null;
   let activeCategory = 'all';
+  let activeView = 'telugu'; // 'telugu' or 'english'
   let searchQuery = '';
 
   // --- DOM ELEMENTS ---
   const songsGrid = document.getElementById('songsGrid');
   const songCountEl = document.getElementById('songCount');
+  
+  // Header Navigation Tab Links
+  const viewTabs = document.getElementById('viewTabs');
+  const tabTelugu = document.getElementById('tabTelugu');
+  const tabEnglish = document.getElementById('tabEnglish');
+  
+  // Search bar components
   const searchInput = document.getElementById('searchInput');
   const searchTriggerBtn = document.getElementById('searchTriggerBtn');
   const clearSearchBtn = document.getElementById('clearSearchBtn');
+  
+  // Filters
   const filtersContainer = document.getElementById('filtersContainer');
   
   // Modals & Panels
@@ -75,19 +85,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const matchCategory = activeCategory === 'all' || 
                             song.category.toLowerCase().includes(activeCategory.toLowerCase());
       
-      // Search Query Filter (Fuzzy Search across Telugu, English titles and lyrics)
+      // Search Match (Tailored dynamically based on activeView tab)
       let matchQuery = true;
       if (searchQuery.trim() !== '') {
         const query = searchQuery.toLowerCase().trim();
-        const titleTe = (song.titleTelugu || '').toLowerCase();
-        const titleEn = (song.titleEnglish || '').toLowerCase();
-        const lyrics = (song.lyricsTelugu || '').toLowerCase();
-        const artist = (song.artist || '').toLowerCase();
         
-        matchQuery = titleTe.includes(query) || 
-                     titleEn.includes(query) || 
-                     lyrics.includes(query) ||
-                     artist.includes(query);
+        if (activeView === 'telugu') {
+          // Telugu Mode matches Telugu titles & lyrics script
+          const titleTe = (song.titleTelugu || '').toLowerCase();
+          const lyrics = (song.lyricsTelugu || '').toLowerCase();
+          matchQuery = titleTe.includes(query) || lyrics.includes(query);
+        } else {
+          // English Mode matches English transliterated titles & artist/singer
+          const titleEn = (song.titleEnglish || '').toLowerCase();
+          const artist = (song.artist || '').toLowerCase();
+          matchQuery = titleEn.includes(query) || artist.includes(query);
+        }
       }
       
       return matchCategory && matchQuery;
@@ -104,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="no-results-card">
           <i class="fa-solid fa-face-frown"></i>
           <h3>No Songs Found</h3>
-          <p>We couldn't find any songs matching your search term. Please try searching with another keyword.</p>
+          <p>We couldn't find any songs matching your search query in ${activeView === 'telugu' ? 'Telugu' : 'English'} mode. Please try another keyword.</p>
         </div>
       `;
       return;
@@ -129,13 +142,12 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
       
-      // Event listener to open lyrics
+      // Click listeners to open lyrics modal
       card.addEventListener('click', (e) => {
         if (!e.target.classList.contains('read-btn') && e.target.tagName === 'BUTTON') return;
         openLyricsModal(song);
       });
       
-      // Also bind explicitly to the button
       card.querySelector('.read-btn').addEventListener('click', (e) => {
         e.stopPropagation();
         openLyricsModal(song);
@@ -150,30 +162,25 @@ document.addEventListener('DOMContentLoaded', () => {
     activeSong = song;
     modalTitleTelugu.textContent = song.titleTelugu;
     modalTitleEnglish.textContent = song.titleEnglish;
-    
-    // Set Telugu Lyrics
     lyricsDisplay.textContent = song.lyricsTelugu;
     
-    // Open Modal
     lyricModal.classList.add('active');
     lyricModal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden'; // Lock background scrolling
+    document.body.style.overflow = 'hidden';
   }
 
   function closeLyricsModal() {
     lyricModal.classList.remove('active');
     lyricModal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = ''; // Unlock background scrolling
+    document.body.style.overflow = '';
     activeSong = null;
   }
 
-  // Readability/Text Zoom Controls
   function applyLyricsFontSize() {
     lyricsDisplay.style.fontSize = `${currentLyricsFontSize}rem`;
     localStorage.setItem('lyricFontSize', currentLyricsFontSize);
   }
 
-  // Adjust font size
   function adjustFontSize(delta) {
     currentLyricsFontSize = Math.min(2.5, Math.max(0.85, currentLyricsFontSize + delta));
     applyLyricsFontSize();
@@ -184,14 +191,12 @@ document.addEventListener('DOMContentLoaded', () => {
     applyLyricsFontSize();
   }
 
-  // Copy Lyrics to Clipboard
   function copyLyricsToClipboard() {
     if (!activeSong) return;
     
-    const textToCopy = `🎵 ${activeSong.titleTelugu} (${activeSong.titleEnglish}) 🎵\n\n${activeSong.lyricsTelugu}\n\n---\nJesus Telugu Songs Library`;
+    const textToCopy = `🎵 ${activeSong.titleTelugu} (${activeSong.titleEnglish}) 🎵\n\n${activeSong.lyricsTelugu}\n\n---\nJesus Songs Library`;
     
     navigator.clipboard.writeText(textToCopy).then(() => {
-      // Temporary UI Success feedback
       const originalHTML = copyLyricsBtn.innerHTML;
       copyLyricsBtn.innerHTML = `<i class="fa-solid fa-check" style="color: #34d399;"></i> Copied!`;
       copyLyricsBtn.style.borderColor = '#10b981';
@@ -204,11 +209,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 2000);
     }).catch(err => {
       console.error('Could not copy lyrics: ', err);
-      alert('Unable to copy. Please select and copy the text manually.');
+      alert('Unable to copy. Please copy the text manually.');
     });
   }
 
-  // Print lyrics
   function printLyrics() {
     window.print();
   }
@@ -266,17 +270,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- EVENT BINDING ---
   function bindEvents() {
-    searchInput.addEventListener('input', (e) => {
-      searchQuery = e.target.value;
-      if (searchQuery.trim() !== '') {
-        clearSearchBtn.style.display = 'flex';
+    // 1. Navigation Tab Clicks (Telugu & English Switches)
+    viewTabs.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (!e.target.classList.contains('nav-link')) return;
+      
+      const activeTab = viewTabs.querySelector('.nav-link.active');
+      if (activeTab) activeTab.classList.remove('active');
+      e.target.classList.add('active');
+      
+      activeView = e.target.dataset.view;
+      
+      // Update search input placeholder dynamically
+      if (activeView === 'telugu') {
+        searchInput.placeholder = "Search for Telugu Jesus songs...";
       } else {
-        clearSearchBtn.style.display = 'none';
+        searchInput.placeholder = "Search for English transliterated songs...";
       }
+      
+      // Retain or clear query as needed (Let's keep search query but filter list)
       renderSongs();
     });
 
-    searchTriggerBtn.addEventListener('click', () => {
+    // 2. Search Field Interactions
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      if (searchQuery.trim() !== '') {
+        clearSearchBtn.style.display = 'block';
+      } else {
+        clearSearchBtn.style.display = 'none';
+      }
       renderSongs();
     });
 
@@ -288,12 +311,17 @@ document.addEventListener('DOMContentLoaded', () => {
       searchInput.focus();
     });
 
+    searchTriggerBtn.addEventListener('click', () => {
+      renderSongs();
+    });
+
     searchInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         renderSongs();
       }
     });
 
+    // 3. Category badge filters
     filtersContainer.addEventListener('click', (e) => {
       if (!e.target.classList.contains('filter-badge')) return;
       
@@ -305,8 +333,8 @@ document.addEventListener('DOMContentLoaded', () => {
       renderSongs();
     });
 
+    // 4. Modal event listeners
     closeModalBtn.addEventListener('click', closeLyricsModal);
-    
     lyricModal.addEventListener('click', (e) => {
       if (e.target === lyricModal) {
         closeLyricsModal();
@@ -327,10 +355,10 @@ document.addEventListener('DOMContentLoaded', () => {
     copyLyricsBtn.addEventListener('click', copyLyricsToClipboard);
     printLyricsBtn.addEventListener('click', printLyrics);
 
+    // Contributor form events
     addSongBtn.addEventListener('click', openAddSongModal);
     closeFormBtn.addEventListener('click', closeAddSongModal);
     cancelFormBtn.addEventListener('click', closeAddSongModal);
-    
     addSongModal.addEventListener('click', (e) => {
       if (e.target === addSongModal) {
         closeAddSongModal();

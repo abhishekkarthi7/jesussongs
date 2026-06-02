@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jesus Telugu Songs | Search Lyrics Online</title>
+  <title>Jesus Songs | Telugu Christian Lyric Library</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="An elegant and responsive repository of Jesus Telugu songs. Search, read, copy, and print your favorite Telugu Christian lyrics.">
-  <meta name="keywords" content="Jesus Telugu Songs, Telugu Christian Lyrics, Christian Songs Telugu, Jesus Songs">
-  <meta name="author" content="Abhishek Portfolio">
+  <meta name="description" content="A premium library of Jesus Telugu songs. Search and read your favorite Christian lyrics in Telugu script or English transliteration.">
+  <meta name="keywords" content="Jesus Songs, Telugu Christian Lyrics, Christian Songs Telugu, Jesus Songs Abhishek">
+  <meta name="author" content="Abhishek">
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2965/2965318.png">
@@ -21,40 +21,32 @@
 </head>
 <body>
 
-  <!-- Divine Background with Glowing Cross & Rays -->
-  <div class="divine-bg-container">
-    <div class="celestial-cross">
-      <div class="cross-beam vertical"></div>
-      <div class="cross-beam horizontal"></div>
-      <div class="divine-glow"></div>
+  <!-- Background overlay with a very subtle top golden glow -->
+  <div class="luxury-bg-overlay"></div>
+
+  <!-- Header Navigation (SBR Style Logo & Centered Nav) -->
+  <header id="main-header">
+    <div class="nav-container-centered">
+      <div class="logo-centered">
+        <span class="logo-main-centered">JESUS SONGS</span>
+        <span class="logo-sub-centered">made by Abhishek</span>
+      </div>
+      
+      <!-- Navigation Tabs (Telugu & English Views) -->
+      <ul class="nav-links-centered" id="viewTabs">
+        <li><a href="#" class="nav-link active" data-view="telugu" id="tabTelugu">TELUGU</a></li>
+        <li><a href="#" class="nav-link" data-view="english" id="tabEnglish">ENGLISH</a></li>
+      </ul>
     </div>
-  </div>
+  </header>
 
   <div class="app-container">
-    <!-- Header Hero Section -->
-    <header>
-      <h1 id="mainTitle">Jesus Telugu Songs</h1>
-      <p class="sub-title">A highly elegant and tranquil space dedicated to Telugu Christian song lyrics. Easily search and reflect on your favorite worship hymns.</p>
-      
-      <!-- Action Buttons -->
-      <div class="header-actions">
-        <button id="addSongBtn" class="btn-header">
-          <i class="fa-solid fa-plus"></i> Add New Song
-        </button>
-      </div>
-
-      <!-- Stats counter -->
-      <div class="stats-badge" id="statsCounter">
-        <i class="fa-solid fa-music"></i> Songs Available: <span id="songCount">0</span>
-      </div>
-    </header>
-
     <main>
-      <!-- Search Box Area -->
+      <!-- Adaptive Search Box Section -->
       <section class="search-wrapper">
         <div class="search-bar-container">
           <i class="fa-solid fa-magnifying-glass search-icon"></i>
-          <input type="text" id="searchInput" class="search-input" placeholder="Type song title or lyrics (Telugu or English letters)..." aria-label="Search Songs">
+          <input type="text" id="searchInput" class="search-input" placeholder="Search for Telugu Jesus songs..." aria-label="Search Songs">
           <button id="clearSearchBtn" class="clear-search-btn" style="display: none;" title="Clear Search">
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -77,17 +69,30 @@
       <section class="songs-grid" id="songsGrid" aria-live="polite">
         <!-- Rendered dynamically by app.js -->
       </section>
+
+      <!-- Add Song Action Center -->
+      <div class="action-footer">
+        <button id="addSongBtn" class="btn-add-song">
+          <i class="fa-solid fa-plus"></i> Add New Song
+        </button>
+      </div>
     </main>
 
-    <!-- Footer Area with Portfolio Card -->
-    <footer>
-      <div class="portfolio-card">
-        <span class="portfolio-tagline">Crafted with devotion</span>
-        <a href="https://abhishek-portfolio.example.com" target="_blank" class="portfolio-link" id="portfolioLink">
-          Made by Abhishek Portfolio <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        </a>
+    <!-- Footer with Average-sized Rectangle Developer Card -->
+    <footer class="app-footer">
+      <div class="developer-rect-card">
+        <div class="rect-left">
+          <span class="rect-logo-main">JESUS SONGS</span>
+          <span class="rect-logo-sub">made by Abhishek</span>
+        </div>
+        <div class="rect-divider"></div>
+        <div class="rect-right">
+          <a href="https://abhishek-portfolio.example.com" target="_blank" class="portfolio-btn" id="portfolioLink">
+            Visit Portfolio <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
       </div>
-      <p class="footer-note">Aaradhana Christian Lyrics Library © 2026. All rights devoted.</p>
+      <p class="footer-copyright">Jesus Songs Library © 2026. All rights devoted.</p>
     </footer>
   </div>
 
