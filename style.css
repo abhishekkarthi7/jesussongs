@@ -1312,6 +1312,14 @@ textarea.form-control {
     width: 260px;
     height: 260px;
   }
+  .halo-ray-layer {
+    width: 200px;
+    height: 200px;
+  }
+  .halo-glow-core {
+    width: 100px;
+    height: 100px;
+  }
   .halo-inner-ring {
     width: 130px;
     height: 130px;
@@ -1641,6 +1649,14 @@ textarea.form-control {
   .halo-beams-glow {
     width: 220px;
     height: 220px;
+  }
+  .halo-ray-layer {
+    width: 160px;
+    height: 160px;
+  }
+  .halo-glow-core {
+    width: 85px;
+    height: 85px;
   }
   .halo-inner-ring {
     width: 110px;
