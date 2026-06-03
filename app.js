@@ -266,7 +266,9 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
       return;
-     // Append song cards dynamically
+    }
+
+    // Append song cards dynamically
     filtered.forEach(song => {
       const card = document.createElement('article');
       card.className = 'song-card';

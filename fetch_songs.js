@@ -160,7 +160,7 @@ async function start() {
   
   const songs = [];
   const songsPerRequest = 100;
-  const targetPages = 5; // 5 pages x 100 per page = 500 songs
+  const targetPages = 15; // 15 pages x 100 per page = 1500 songs
   
   for (let page = 1; page <= targetPages; page++) {
     try {
