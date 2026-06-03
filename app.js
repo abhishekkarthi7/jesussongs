@@ -1,36 +1,28 @@
 /**
  * Jesus Songs & Lyrics Web Application
- * Core Script, Dynamic Multi-Language Engine, Canvas Particle Engine, and Interactive Controls
+ * Core Script, Canvas Particle Engine, Interactive Category Grid Navigation, and Spiritual Reflection Modal
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   // --- APPLICATION STATE ---
   let allSongs = [];
-  let customSongs = [];
   let currentLyricsFontSize = parseFloat(localStorage.getItem('lyricFontSize')) || 1.15; // in rem
   let activeSong = null;
   let activeCategory = 'all';
-  let activeLang = 'english'; // 'telugu' or 'english'
   let searchQuery = '';
   let favoriteSongs = JSON.parse(localStorage.getItem('fav_jesus_songs')) || [];
 
   // --- DOM ELEMENTS ---
   const songsGrid = document.getElementById('songsGrid');
-  const songCountEl = document.getElementById('songCount');
   const searchInput = document.getElementById('searchInput');
   const searchTriggerBtn = document.getElementById('searchTriggerBtn');
   const clearSearchBtn = document.getElementById('clearSearchBtn');
   const suggestionBox = document.getElementById('suggestionBox');
-  const categoryFilters = document.getElementById('categoryFilters');
   const appHeader = document.getElementById('appHeader');
+  const libraryHeading = document.getElementById('libraryHeading');
+  const libraryDescription = document.getElementById('libraryDescription');
   
-  // Language elements to translate
-  const btnLangTelugu = document.getElementById('btnLangTelugu');
-  const btnLangEnglish = document.getElementById('btnLangEnglish');
-  const heroTitle = document.getElementById('heroTitle');
-  const heroSubtitle = document.getElementById('heroSubtitle');
-  
-  // Modals & Panels
+  // Lyrics Modals & Panels
   const lyricModal = document.getElementById('lyricModal');
   const modalSongTitle = document.getElementById('modalSongTitle');
   const modalSongMeta = document.getElementById('modalSongMeta');
@@ -38,129 +30,87 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModalBtn = document.getElementById('closeModalBtn');
   const favoriteSongBtn = document.getElementById('favoriteSongBtn');
   
-  // Modal Actions
+  // Lyrics Modal Actions
   const copyLyricsBtn = document.getElementById('copyLyricsBtn');
   const shareLyricsBtn = document.getElementById('shareLyricsBtn');
   const printLyricsBtn = document.getElementById('printLyricsBtn');
   const zoomInBtn = document.getElementById('zoomInBtn');
   const zoomOutBtn = document.getElementById('zoomOutBtn');
   const zoomNormalBtn = document.getElementById('zoomNormalBtn');
-  
-  // Contributor Form Modal
-  const addSongBtn = document.getElementById('addSongBtn');
-  const addSongModal = document.getElementById('addSongModal');
-  const closeFormBtn = document.getElementById('closeFormBtn');
-  const cancelFormBtn = document.getElementById('cancelFormBtn');
-  const addSongForm = document.getElementById('addSongForm');
-  const saveSongBtn = document.getElementById('saveSongBtn');
-  
-  // Footer card items
-  const btnContact = null;
 
-  // --- 1. DYNAMIC TRANSLATION DICTIONARY ---
-  const TRANSLATIONS = {
-    telugu: {
-      heroTitle: "Jesus Songs & Lyrics",
-      heroSubtitle: "Discover worship songs, praise songs, gospel songs, and inspirational lyrics that bring you closer to God.",
-      searchPlaceholder: "Search songs, lyrics, worship songs...",
-      worshipTitle: "Why Jesus Songs?",
-      worshipDesc: "Jesus songs help believers worship, pray, meditate on God's word, and strengthen their faith. Through lyrics and music, people can experience encouragement, peace, hope, and spiritual growth.",
-      countLabel: "Songs Available: ",
-      addSongBtn: "Add Custom Song",
-      searchBtnText: "Search",
-      noSongsTitle: "No Songs Found",
-      noSongsDesc: "We couldn't find any songs matching your search term. Please try another query.",
-      readBtnText: "View Lyrics",
-      lyricsActionsLabel: "Lyrics Options:",
-      textSizeLabel: "Text Size:",
-      copyLyricsBtn: "Copy Lyrics",
-      shareLyricsBtn: "Share",
-      footerTagline: "Made with Faith and Love",
-      developerTag: "Developed by AV",
-      portfolioBtn: "Portfolio",
-      contactBtn: "Contact",
-      categories: {
-        "all": "All Songs",
-        "Worship Songs": "Worship Songs",
-        "Praise Songs": "Praise Songs",
-        "Gospel Songs": "Gospel Songs",
-        "Prayer Songs": "Prayer Songs",
-        "Christmas Songs": "Christmas Songs",
-        "Revival Songs": "Revival Songs",
-        "Youth Songs": "Youth Songs",
-        "Telugu Songs": "Telugu Songs",
-        "English Songs": "English Songs"
-      }
+  // Spiritual Reflection Modal
+  const spiritualModal = document.getElementById('spiritualModal');
+  const spiritualModalTitle = document.getElementById('spiritualModalTitle');
+  const spiritualGraphic = document.getElementById('spiritualGraphic');
+  const spiritualTextContent = document.getElementById('spiritualTextContent');
+  const closeSpiritualModalBtn = document.getElementById('closeSpiritualModalBtn');
+
+  // --- 1. SPIRITUAL REFLECTIONS DICTIONARY ---
+  const SPIRITUAL_REFLECTIONS = {
+    worship: {
+      title: "Divine Worship",
+      icon: "fa-solid fa-hands-praying",
+      text: `Worship is not merely singing songs or reciting prayers; it is a profound, personal encounter with <strong>Jesus Christ</strong>—the living Savior of the world.<br><br>
+             Unlike historical figures who remain in their tombs, Jesus conquered death and is active today. When we worship Him, we enter the tangible presence of the Almighty God who created the heavens and the earth, yet knows the details of your life. In His presence, depression lifts, addictions break, and broken hearts are completely restored. Worship is the gateway to experiencing the unconditional love and reality of the alive God.`
     },
-    english: {
-      heroTitle: "Jesus Songs & Lyrics",
-      heroSubtitle: "Discover worship songs, praise songs, gospel songs, and inspirational lyrics that bring you closer to God.",
-      searchPlaceholder: "Search songs, lyrics, worship songs...",
-      worshipTitle: "Why Jesus Songs?",
-      worshipDesc: "Jesus songs help believers worship, pray, meditate on God's word, and strengthen their faith. Through lyrics and music, people can experience encouragement, peace, hope, and spiritual growth.",
-      countLabel: "Songs Available: ",
-      addSongBtn: "Add Custom Song",
-      searchBtnText: "Search",
-      noSongsTitle: "No Songs Found",
-      noSongsDesc: "We couldn't find any songs matching your search term. Please try another query.",
-      readBtnText: "View Lyrics",
-      lyricsActionsLabel: "Lyrics Options:",
-      textSizeLabel: "Text Size:",
-      copyLyricsBtn: "Copy Lyrics",
-      shareLyricsBtn: "Share",
-      footerTagline: "Made with Faith and Love",
-      developerTag: "Developed by AV",
-      portfolioBtn: "Portfolio",
-      contactBtn: "Contact",
-      categories: {
-        "all": "All Songs",
-        "Worship Songs": "Worship Songs",
-        "Praise Songs": "Praise Songs",
-        "Gospel Songs": "Gospel Songs",
-        "Prayer Songs": "Prayer Songs",
-        "Christmas Songs": "Christmas Songs",
-        "Revival Songs": "Revival Songs",
-        "Youth Songs": "Youth Songs",
-        "Telugu Songs": "Telugu Songs",
-        "English Songs": "English Songs"
-      }
+    praise: {
+      title: "Victorious Praise",
+      icon: "fa-solid fa-music",
+      text: `Praise is the joyous declaration of Jesus' absolute victory and majesty. He is not a distant deity, but the active, all-powerful King of Kings.<br><br>
+             When we praise Jesus, we align our minds with the reality that no storm is too great for Him. Praise shifts our focus from our limitations to His limitless power. In praise, we witness His miraculous hand: chains are broken, pathways are opened, and light shines into the deepest darkness. Praising Jesus proves that He is alive, working signs and wonders in the lives of millions today.`
+    },
+    prayer: {
+      title: "Direct Prayer",
+      icon: "fa-solid fa-dove",
+      text: `Prayer is a direct line of communication to the Creator of the universe through Jesus Christ. God became flesh in Jesus so He could relate to our pain and walk in our shoes.<br><br>
+             When you pray in the name of Jesus, you are speaking to a living Savior who hears your whispers and counts your tears. Prayer is not a religious ritual; it is a catalyst for divine intervention. Countless documented miracles—instantaneous healings, restored minds, and supernatural provisions—bear testimony to the truth that Jesus answers prayer today because He is alive and reigns as Almighty God.`
+    },
+    bible: {
+      title: "The Living Word",
+      icon: "fa-solid fa-book-bible",
+      text: `The Holy Bible is not a relic of the past; it is the living, breathing Word of God. Through its pages, Jesus speaks directly to the human spirit with power, wisdom, and life.<br><br>
+             Supernaturally preserved over thousands of years, the Bible contains hundreds of precise prophecies written centuries before Jesus' birth that were perfectly fulfilled in Him. Reading the Bible reveals the truth of eternity and the blueprint of your soul. Its words have the unique power to pierce the heart, convict the conscience, and guide you into absolute truth, testifying that Jesus is the eternal Word of God.`
+    },
+    faith: {
+      title: "Unshakable Faith",
+      icon: "fa-solid fa-cross",
+      text: `Faith is not blind optimism; it is the confident trust in the character and promises of the living God, Jesus Christ. It is anchored in the historical certainty of His resurrection.<br><br>
+             When we place our faith in Jesus, we invite the Almighty God to do what is impossible for humans. Faith is the shield that keeps us secure in times of trouble and the anchor that holds us steady. By taking a step of faith, millions have emerged from despair, found eternal hope, and experienced a complete transformation of their lives, knowing that Jesus is alive, faithful, and will never abandon those who trust in Him.`
     }
+  };
+
+  const CATEGORY_DESCRIPTIONS = {
+    'all': 'Welcome to the Jesus Songs library. Music is a divine gift to connect our hearts with the Almighty. Explore these lyrics to experience the presence, love, and reality of the living Savior, Jesus Christ.',
+    'worship songs': 'Worship is a personal, intimate encounter with Jesus Christ—the living, active Savior. Unlike other historical figures who remain in their tombs, Jesus conquered death and is alive today! When we worship, we step into the real presence of the Almighty God. Here, hearts are healed, depression lifts, and souls find peace. Jesus is not a myth; He is the alive God who hears your voice right now.',
+    'praise songs': 'Praise is the victorious celebration of Jesus\' absolute power and authority! He is the Almighty God who does signs, wonders, and miracles. When we praise, we declare His goodness over every storm and trial. Praise shifts our focus to His limitless strength, breaking every chain and bringing joy and breakthrough. Praise is proof that our God is alive and actively working in our lives today!',
+    'gospel songs': 'Gospel songs share the good news of salvation through Jesus Christ. Jesus came to earth, died for our sins, and rose again on the third day to give us eternal life. These songs contain rich biblical truths that guide our lives, strengthen our faith, and reveal the character of the living God. To know the Gospel is to know the path of truth, light, and everlasting hope.',
+    'prayer songs': 'Prayer is talking directly to the Creator of the universe. In Jesus, God became flesh to understand our struggles, count our tears, and heal our pain. Prayer songs are heartfelt conversations with a living God who answers. Countless miracles, healings, and answered prayers stand as a testimony that Jesus is alive, listening, and ready to help you.',
+    'christmas songs': 'Christmas is the celebration of God coming down to earth as a human child—Emmanuel, which means \'God with us\'. Jesus was born of a virgin, lived a perfect life, and brought light to a dark world. Christmas songs remind us of the great love of the Father who sent His Son to save us. He is not a distant deity, but a personal Savior who wants to dwell in your heart.',
+    'revival songs': 'Revival is the spiritual awakening of the soul, turning back to the living God with passion and repentance. Revival songs call for the fire of the Holy Spirit to transform our lives, families, and nations. When the Spirit moves, chains of addiction are broken, cold hearts are set on fire, and the power of the living Jesus is displayed dynamically. Jesus is alive and calling you to a fresh, powerful walk of faith!',
+    'youth songs': 'Youth songs are energetic, vibrant expressions of devotion for the younger generation. Setting our hearts on Jesus early in life anchors us against the waves of this world. These songs inspire young people to stand strong in faith, live with purpose, and declare that Jesus is their best friend, guide, and living Lord.'
   };
 
   // --- 2. INITIALIZATION ---
   function init() {
-    // A. Load custom songs from local storage
-    const storedCustom = localStorage.getItem('custom_jesus_songs');
-    if (storedCustom) {
-      try {
-        customSongs = JSON.parse(storedCustom);
-      } catch (e) {
-        console.error("Error parsing custom songs", e);
-        customSongs = [];
-      }
-    }
+    // Load static songs (from songs.js)
+    allSongs = typeof INITIAL_SONGS !== 'undefined' ? INITIAL_SONGS : [];
     
-    // B. Merge base INITIAL_SONGS (from songs.js) with custom songs
-    const baseSongs = typeof INITIAL_SONGS !== 'undefined' ? INITIAL_SONGS : [];
-    allSongs = [...customSongs, ...baseSongs];
-    
-    // C. Initialize particle canvas background
+    // Initialize particle canvas background
     initCanvasParticles();
     
-    // D. Load active language preferences from memory if any
-    activeLang = localStorage.getItem('appLang') || 'english';
-    
-    // E. Perform initial rendering
-    applyLanguageSwitch();
+    // Perform initial rendering
     applyLyricsFontSize();
+    renderCategoryFilters();
+    renderSongs();
     
-    // F. Bind all event listeners
+    // Bind all event listeners
     bindEvents();
   }
 
   // --- 3. CANVAS PARTICLE BACKGROUND SYSTEM ---
   function initCanvasParticles() {
     const canvas = document.getElementById('particleCanvas');
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
     
     let particlesArray = [];
@@ -228,103 +178,61 @@ document.addEventListener('DOMContentLoaded', () => {
     populateParticles();
     animate();
     
-    // Adjust particles density on screen resize
     window.addEventListener('resize', populateParticles);
   }
 
-  // --- 4. MULTI-LANGUAGE DYNAMIC RENDERING ---
-  function applyLanguageSwitch() {
-    const dict = TRANSLATIONS[activeLang];
-    localStorage.setItem('appLang', activeLang);
+  // --- 4. RENDER CATEGORY FILTERS (Hook to category-card click events) ---
+  function renderCategoryFilters() {
+    const categoryCards = document.querySelectorAll('.category-card');
     
-    // Switch active state classes on header buttons
-    if (activeLang === 'telugu') {
-      btnLangTelugu.classList.add('active');
-      btnLangEnglish.classList.remove('active');
-    } else {
-      btnLangEnglish.classList.add('active');
-      btnLangTelugu.classList.remove('active');
-    }
-    
-    // Translate static DOM strings
-    heroTitle.textContent = dict.heroTitle;
-    heroSubtitle.textContent = dict.heroSubtitle;
-    searchInput.placeholder = dict.searchPlaceholder;
-    
-    // About/Why section translation
-    document.querySelector('.about-title').textContent = dict.worshipTitle;
-    document.querySelector('.about-desc').textContent = dict.worshipDesc;
-    
-    // Add Song button translation
-    addSongBtn.innerHTML = `<i class="fa-solid fa-circle-plus"></i> ${dict.addSongBtn}`;
-    searchTriggerBtn.textContent = dict.searchBtnText;
-    
-    // Footer translations
-    const taglineEl = document.querySelector('.rect-tagline');
-    if (taglineEl) taglineEl.textContent = dict.footerTagline;
-    
-    const developerEl = document.querySelector('.rect-developer');
-    if (developerEl) developerEl.textContent = dict.developerTag;
-    
-    const portfolioEl = document.querySelector('.portfolio-btn');
-    if (portfolioEl) portfolioEl.innerHTML = `${dict.portfolioBtn} <i class="fa-solid fa-arrow-up-right-from-square"></i>`;
-    
-    // Re-render categories layout
-    renderCategoryFilters(dict.categories);
-    
-    // Re-render dynamic song list
-    renderSongs();
-  }
-
-  function renderCategoryFilters(categoriesDict) {
-    categoryFilters.innerHTML = '';
-    
-    // Define ordering of category badge values
-    const filterKeys = [
-      "all", "Worship Songs", "Praise Songs", "Gospel Songs", 
-      "Prayer Songs", "Christmas Songs", "Revival Songs", "Youth Songs",
-      "Telugu Songs", "English Songs"
-    ];
-    
-    filterKeys.forEach(key => {
-      const btn = document.createElement('button');
-      btn.className = `filter-pill ${activeCategory === key ? 'active' : ''}`;
-      btn.dataset.filter = key;
-      btn.textContent = categoriesDict[key] || key;
-      
-      btn.addEventListener('click', (e) => {
-        const activePill = categoryFilters.querySelector('.filter-pill.active');
-        if (activePill) activePill.classList.remove('active');
-        btn.classList.add('active');
-        activeCategory = key;
+    categoryCards.forEach(card => {
+      card.addEventListener('click', () => {
+        // Remove active class from all cards
+        categoryCards.forEach(c => c.classList.remove('active'));
+        
+        // Add active class to clicked card
+        card.classList.add('active');
+        
+        // Set active category value
+        activeCategory = card.dataset.category;
+        
+        // Render filtered songs
         renderSongs();
+        
+        // Smooth scroll to the library heading
+        if (libraryHeading) {
+          libraryHeading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       });
-      
-      categoryFilters.appendChild(btn);
     });
   }
 
-  // --- 5. RENDER SONGS CORE ---
+  // --- 5. RENDER SONGS ---
   function renderSongs() {
-    const dict = TRANSLATIONS[activeLang];
-    
-    // Filter matching criteria
-    const filtered = allSongs.filter(song => {
-      // 1. Language Filter: filter based on activeLang
-      let matchLanguage = false;
-      if (activeLang === 'telugu') {
-        matchLanguage = !!(song.titleTelugu && song.lyricsTelugu);
+    if (!songsGrid) return;
+
+    // Update library section heading text
+    if (libraryHeading) {
+      if (activeCategory === 'all') {
+        libraryHeading.textContent = "All Songs Library";
       } else {
-        matchLanguage = !!(song.titleEnglish && song.lyricsEnglish);
+        libraryHeading.textContent = `${activeCategory} Library`;
       }
-      
-      // 2. Category filters
+    }
+    if (libraryDescription) {
+      const descKey = activeCategory.toLowerCase();
+      libraryDescription.innerHTML = CATEGORY_DESCRIPTIONS[descKey] || CATEGORY_DESCRIPTIONS['all'];
+    }
+
+    // Filter matching criteria (ignores language restriction to show all songs)
+    const filtered = allSongs.filter(song => {
+      // 1. Category Filter
       let matchCategory = true;
       if (activeCategory !== 'all') {
         matchCategory = (song.categoryEnglish || '').toLowerCase() === activeCategory.toLowerCase();
       }
       
-      // 3. Search query matches (checks globally title, lyrics, artists, category)
+      // 2. Search Query (global search)
       let matchQuery = true;
       if (searchQuery.trim() !== '') {
         const query = searchQuery.toLowerCase().trim();
@@ -344,72 +252,54 @@ document.addEventListener('DOMContentLoaded', () => {
                      artistEn.includes(query);
       }
       
-      return matchLanguage && matchCategory && matchQuery;
+      return matchCategory && matchQuery;
     });
 
-    // Update statistics banner count
-    if (songCountEl) {
-      songCountEl.textContent = filtered.length;
-    }
-    
-    // Empty songs library grid view
     songsGrid.innerHTML = '';
 
     if (filtered.length === 0) {
       songsGrid.innerHTML = `
-        <div class="no-results-card">
-          <i class="fa-solid fa-face-frown"></i>
-          <h3>${dict.noSongsTitle}</h3>
-          <p>${dict.noSongsDesc}</p>
+        <div class="no-results-card" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
+          <i class="fa-solid fa-face-frown" style="font-size: 2.5rem; color: var(--color-text-muted); margin-bottom: 1rem;"></i>
+          <h3 style="font-weight: 300; font-size: 1.4rem; color: var(--color-text-primary);">No Songs Found</h3>
+          <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 0.5rem;">We couldn't find any songs matching your search term. Please try another query.</p>
         </div>
       `;
       return;
-    }
-
-    // Append song cards dynamically
+     // Append song cards dynamically
     filtered.forEach(song => {
       const card = document.createElement('article');
       card.className = 'song-card';
       
-      // Select song details based on active language tab
-      const displayTitle = activeLang === 'telugu' ? song.titleTelugu : song.titleEnglish;
-      const displayCategory = activeLang === 'telugu' ? song.categoryTelugu : song.categoryEnglish;
-      const displayArtist = activeLang === 'telugu' ? song.artistTelugu : song.artistEnglish;
-      const displayDesc = activeLang === 'telugu' ? song.descriptionTelugu : song.descriptionEnglish;
-      
-      // Shorten description if too long
-      const shortDesc = displayDesc || (activeLang === 'telugu' 
-        ? "రక్షకుడైన యేసు క్రీస్తును కీర్తించే మధురమైన ఆత్మీయ గీతం." 
-        : "A sacred worship song devoted to praising our Lord Jesus Christ.");
-        
-      const languageBadge = song.lyricsEnglish ? "English / Telugu" : "Telugu Script";
+      const displayTitle = `<span class="telugu-title">${song.titleTelugu}</span><span class="translit-title">${song.titleEnglish}</span>`;
+      const displayCategory = song.categoryEnglish || 'Worship';
+      const displayArtist = song.artistEnglish || 'Traditional';
 
-      const defaultImage = "https://images.unsplash.com/photo-1438029071396-1e831a7fa6d8?q=80&w=600";
-      const songImage = song.imageUrl || defaultImage;
+      let iconClass = 'fa-music';
+      if (displayCategory.toLowerCase().includes('worship')) iconClass = 'fa-hands-praying';
+      else if (displayCategory.toLowerCase().includes('praise')) iconClass = 'fa-music';
+      else if (displayCategory.toLowerCase().includes('gospel')) iconClass = 'fa-book-bible';
+      else if (displayCategory.toLowerCase().includes('prayer')) iconClass = 'fa-dove';
+      else if (displayCategory.toLowerCase().includes('christmas')) iconClass = 'fa-star';
+      else if (displayCategory.toLowerCase().includes('revival')) iconClass = 'fa-fire';
+      else if (displayCategory.toLowerCase().includes('youth')) iconClass = 'fa-heart';
 
       card.innerHTML = `
-        <div class="song-card-img-wrapper">
-          <img src="${songImage}" alt="${displayTitle}" class="song-card-img">
-          <div class="song-card-header-overlay">
-            <span class="song-category-tag">${displayCategory || 'Worship'}</span>
-          </div>
+        <div class="song-card-compact-icon">
+          <i class="fa-solid ${iconClass}"></i>
         </div>
-        <div class="song-card-body">
-          <div class="song-card-meta-row">
-            <span class="song-lang-tag">${languageBadge}</span>
-          </div>
+        <div class="song-card-compact-main">
           <h3 class="song-card-title">${displayTitle}</h3>
-          <p class="song-card-desc">${shortDesc}</p>
-          <div class="song-card-footer">
-            <span class="song-card-artist"><i class="fa-solid fa-microphone"></i> ${displayArtist || 'AV'}</span>
-            <button class="song-read-btn">${dict.readBtnText}</button>
-          </div>
+        </div>
+        <div class="song-card-compact-meta">
+          <span class="song-category-tag">${displayCategory}</span>
+          <button class="song-read-btn">View Lyrics <i class="fa-solid fa-chevron-right" style="margin-left: 6px; font-size: 0.65rem;"></i></button>
         </div>
       `;
       
       // Card click events
       card.addEventListener('click', (e) => {
-        if (e.target.tagName === 'BUTTON') return; // Handled by button listener
+        if (e.target.tagName === 'BUTTON') return;
         openLyricsModal(song);
       });
       
@@ -434,18 +324,17 @@ document.addEventListener('DOMContentLoaded', () => {
       suggestionBox.style.display = 'none';
     }
     
-    renderSongs(); // Update main grid live as you type
+    renderSongs();
   }
 
   function showSearchSuggestions() {
     const query = searchQuery.toLowerCase().trim();
     
-    // Find matching records
     const matches = allSongs.filter(song => {
       const titleTe = (song.titleTelugu || '').toLowerCase();
       const titleEn = (song.titleEnglish || '').toLowerCase();
       return titleTe.includes(query) || titleEn.includes(query);
-    }).slice(0, 5); // Limit suggestions to top 5
+    }).slice(0, 5);
     
     if (matches.length === 0) {
       suggestionBox.style.display = 'none';
@@ -458,12 +347,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const div = document.createElement('div');
       div.className = 'suggestion-item';
       
-      const displayTitle = activeLang === 'telugu' ? song.titleTelugu : song.titleEnglish;
-      const displayCategory = activeLang === 'telugu' ? song.categoryTelugu : song.categoryEnglish;
-      
       div.innerHTML = `
-        <span class="suggest-title">${displayTitle}</span>
-        <span class="suggest-cat">${displayCategory || 'Worship'}</span>
+        <span class="suggest-title">${song.titleEnglish} (${song.titleTelugu})</span>
+        <span class="suggest-cat">${song.categoryEnglish || 'Worship'}</span>
       `;
       
       div.addEventListener('click', () => {
@@ -485,22 +371,38 @@ document.addEventListener('DOMContentLoaded', () => {
     activeSong = song;
     
     // Set headers
-    modalSongTitle.textContent = activeLang === 'telugu' ? song.titleTelugu : song.titleEnglish;
+    modalSongTitle.textContent = song.titleEnglish;
+    modalSongMeta.textContent = song.categoryEnglish || 'Worship Songs';
     
-    const displayCategory = activeLang === 'telugu' ? song.categoryTelugu : song.categoryEnglish;
-    const langLabel = activeLang === 'telugu' ? "తెలుగు" : "English";
-    modalSongMeta.textContent = `${langLabel} • ${displayCategory || 'Worship Songs'}`;
+    // Inner Lyric language toggle mode
+    let lyricsMode = 'telugu';
+    const btnLyricTelugu = document.getElementById('btnLyricTelugu');
+    const btnLyricEnglish = document.getElementById('btnLyricEnglish');
     
-    // Load lyrics script
-    lyricsDisplay.textContent = activeLang === 'telugu' ? song.lyricsTelugu : (song.lyricsEnglish || song.lyricsTelugu);
+    function updateLyricsDisplay() {
+      if (lyricsMode === 'telugu') {
+        lyricsDisplay.textContent = song.lyricsTelugu;
+        btnLyricTelugu.classList.add('active');
+        btnLyricEnglish.classList.remove('active');
+      } else {
+        lyricsDisplay.textContent = song.lyricsEnglish || song.lyricsTelugu;
+        btnLyricEnglish.classList.add('active');
+        btnLyricTelugu.classList.remove('active');
+      }
+    }
     
-    // Load favorite state
+    btnLyricTelugu.onclick = () => {
+      lyricsMode = 'telugu';
+      updateLyricsDisplay();
+    };
+    
+    btnLyricEnglish.onclick = () => {
+      lyricsMode = 'english';
+      updateLyricsDisplay();
+    };
+    
+    updateLyricsDisplay();
     updateFavoriteBtnState();
-    
-    // Copy/Share button translations
-    const dict = TRANSLATIONS[activeLang];
-    copyLyricsBtn.innerHTML = `<i class="fa-solid fa-copy"></i> ${dict.copyLyricsBtn}`;
-    shareLyricsBtn.innerHTML = `<i class="fa-solid fa-share-nodes"></i> ${dict.shareLyricsBtn}`;
     
     // Show panel
     lyricModal.classList.add('active');
@@ -508,6 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = 'hidden';
   }
 
+  // Close the lyrics modal
   function closeLyricsModal() {
     lyricModal.classList.remove('active');
     lyricModal.setAttribute('aria-hidden', 'true');
@@ -562,8 +465,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Copy lyrics
   function copyLyricsToClipboard() {
     if (!activeSong) return;
-    const title = activeLang === 'telugu' ? activeSong.titleTelugu : activeSong.titleEnglish;
-    const lyrics = activeLang === 'telugu' ? activeSong.lyricsTelugu : (activeSong.lyricsEnglish || activeSong.lyricsTelugu);
+    const title = activeSong.titleEnglish;
+    const lyrics = lyricsDisplay.textContent;
     
     const textToCopy = `🎵 ${title} 🎵\n\n${lyrics}\n\n---\nJesus Songs & Lyrics App`;
     
@@ -584,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Share lyrics
   function shareLyrics() {
     if (!activeSong) return;
-    const title = activeLang === 'telugu' ? activeSong.titleTelugu : activeSong.titleEnglish;
+    const title = activeSong.titleEnglish;
     
     if (navigator.share) {
       navigator.share({
@@ -593,89 +496,42 @@ document.addEventListener('DOMContentLoaded', () => {
         url: window.location.href
       }).catch(console.error);
     } else {
-      // Fallback share alerts
       alert(`Sharing: "${title}" lyrics - Link copied to clipboard!`);
       navigator.clipboard.writeText(window.location.href);
     }
   }
 
-  // --- 8. CONTRIBUTOR FORM MODAL ACTIONS ---
-  function openAddSongModal() {
-    addSongModal.classList.add('active');
-    addSongModal.setAttribute('aria-hidden', 'false');
+  // --- 8. SPIRITUAL REFLECTION MODAL ACTIONS ---
+  function openSpiritualModal(type) {
+    const data = SPIRITUAL_REFLECTIONS[type];
+    if (!data) return;
+    
+    spiritualModalTitle.textContent = data.title;
+    spiritualGraphic.innerHTML = `<i class="${data.icon}"></i>`;
+    spiritualTextContent.innerHTML = data.text;
+    
+    spiritualModal.classList.add('active');
+    spiritualModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
 
-  function closeAddSongModal() {
-    addSongModal.classList.remove('active');
-    addSongModal.setAttribute('aria-hidden', 'true');
+  function closeSpiritualModal() {
+    spiritualModal.classList.remove('active');
+    spiritualModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    addSongForm.reset();
-  }
-
-  function handleSaveSong() {
-    const titleTe = document.getElementById('inputTitleTelugu').value.trim();
-    const titleEn = document.getElementById('inputTitleEnglish').value.trim();
-    const category = document.getElementById('selectCategory').value;
-    const artist = document.getElementById('inputArtist').value.trim() || 'AV';
-    const key = document.getElementById('inputKey').value.trim() || 'F Major';
-    const tempo = document.getElementById('inputTempo').value.trim() || '75 BPM';
-    const lyrics = document.getElementById('textareaLyrics').value.trim();
-
-    if (!titleTe || !titleEn || !category || !lyrics) {
-      alert('Please fill out all fields marked with (*).');
-      return;
-    }
-
-    // Build bilingual model song properties
-    const newSong = {
-      id: `custom-${Date.now()}`,
-      titleTelugu: titleTe,
-      titleEnglish: titleEn,
-      artistTelugu: artist,
-      artistEnglish: artist,
-      categoryTelugu: category === 'Worship Songs' ? 'ఆరాధన గీతాలు' : 'స్తుతి గీతాలు',
-      categoryEnglish: category,
-      descriptionTelugu: "నూతనంగా జోడించబడిన యేసయ్య ఆరాధన పాట.",
-      descriptionEnglish: "A newly added devotional song for prayer and worship.",
-      key: key,
-      tempo: tempo,
-      lyricsTelugu: lyrics,
-      lyricsEnglish: lyrics // Default to same transliterated field
-    };
-
-    customSongs.unshift(newSong);
-    localStorage.setItem('custom_jesus_songs', JSON.stringify(customSongs));
-    
-    // Refresh database
-    const baseSongs = typeof INITIAL_SONGS !== 'undefined' ? INITIAL_SONGS : [];
-    allSongs = [...customSongs, ...baseSongs];
-    
-    renderSongs();
-    closeAddSongModal();
-    
-    alert(`🎉 "${titleTe}" has been successfully added to the library!`);
   }
 
   // --- 9. EVENT BINDING ---
   function bindEvents() {
     // Scroll header opacity transition
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        appHeader.classList.add('scrolled');
-      } else {
-        appHeader.classList.remove('scrolled');
+      if (appHeader) {
+        if (window.scrollY > 50) {
+          appHeader.classList.add('scrolled');
+        } else {
+          appHeader.classList.remove('scrolled');
+        }
       }
-    });
-
-    // Language switcher click events
-    btnLangTelugu.addEventListener('click', () => {
-      activeLang = 'telugu';
-      applyLanguageSwitch();
-    });
-    btnLangEnglish.addEventListener('click', () => {
-      activeLang = 'english';
-      applyLanguageSwitch();
     });
 
     // Search bar event listeners
@@ -720,7 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (lyricModal.classList.contains('active')) closeLyricsModal();
-        if (addSongModal.classList.contains('active')) closeAddSongModal();
+        if (spiritualModal && spiritualModal.classList.contains('active')) closeSpiritualModal();
       }
     });
 
@@ -737,20 +593,25 @@ document.addEventListener('DOMContentLoaded', () => {
       printLyricsBtn.addEventListener('click', () => window.print());
     }
 
-    // Add Song modal events
-    addSongBtn.addEventListener('click', openAddSongModal);
-    closeFormBtn.addEventListener('click', closeAddSongModal);
-    cancelFormBtn.addEventListener('click', closeAddSongModal);
-    addSongModal.addEventListener('click', (e) => {
-      if (e.target === addSongModal) {
-        closeAddSongModal();
-      }
+    // Click events for Spiritual Reflection Cards
+    document.querySelectorAll('.clickable-reflection-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const type = card.dataset.reflection;
+        openSpiritualModal(type);
+      });
     });
 
-    addSongForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      handleSaveSong();
-    });
+    // Close spiritual modal controls
+    if (closeSpiritualModalBtn) {
+      closeSpiritualModalBtn.addEventListener('click', closeSpiritualModal);
+    }
+    if (spiritualModal) {
+      spiritualModal.addEventListener('click', (e) => {
+        if (e.target === spiritualModal) {
+          closeSpiritualModal();
+        }
+      });
+    }
   }
 
   // --- START THE APPLICATION ---

@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jesus Songs | Christian Lyrics Library</title>
-  
+
   <!-- SEO Optimization Meta Tags -->
-  <meta name="description" content="Discover worship songs, praise songs, gospel songs, and inspirational lyrics that bring you closer to God. Beautifully curated Jesus songs library.">
+  <meta name="description"
+    content="Discover worship songs, praise songs, gospel songs, and inspirational lyrics that bring you closer to God. Beautifully curated Jesus songs library.">
   <meta name="keywords" content="Jesus Songs, Christian Lyrics, Telugu Worship Songs, Gospel Songs">
   <meta name="author" content="Abhishek">
-  
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2965/2965318.png">
 
   <!-- Google Fonts: Quicksand for clean UI, Noto Sans Telugu for Script -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <!-- Floating Heavenly Light Particle Overlay (Canvas Engine) -->
@@ -33,68 +38,36 @@
   <div class="heavenly-light-source"></div>
   <div class="cloud-overlay"></div>
 
-  <!-- Transparent Sticky Header Navigation (Clean Logo Only) -->
-  <header id="appHeader">
-    <div class="nav-container">
-      <a href="#" class="logo-group">
-        <span class="logo-main">Jesus Songs</span>
-      </a>
-      
-      <!-- Right Side language Switcher Tabs -->
-      <nav class="nav-controls">
-        <div class="language-tabs" id="languageTabs">
-          <button class="lang-tab active" data-lang="english" id="btnLangEnglish">English</button>
-          <button class="lang-tab" data-lang="telugu" id="btnLangTelugu">Telugu</button>
-        </div>
-      </nav>
-    </div>
-  </header>
-
   <!-- Full-Screen Hero & Floating Cross Area -->
   <section class="hero-section" id="hero">
-    <div class="hero-content-wrapper">
-      
-      <!-- Interactive Floating 3D CSS Cross -->
-      <div class="divine-cross-container" id="divineCrossContainer">
-        <div class="divine-cross" id="divineCross">
-          <!-- 3D cross layers -->
-          <div class="cross-beam vertical-beam">
-            <div class="face front"></div>
-            <div class="face back"></div>
-            <div class="face left"></div>
-            <div class="face right"></div>
-            <div class="face top"></div>
-            <div class="face bottom"></div>
-          </div>
-          <div class="cross-beam horizontal-beam">
-            <div class="face front"></div>
-            <div class="face back"></div>
-            <div class="face left"></div>
-            <div class="face right"></div>
-            <div class="face top"></div>
-            <div class="face bottom"></div>
-          </div>
-          <!-- Internal neon core glow -->
-          <div class="cross-glow-source"></div>
+    <div class="hero-content-wrapper animate-fade-in">
+
+      <h1 class="hero-title-top" id="heroTitleTop">Jesus Songs</h1>
+
+      <!-- Sacred Halo Aura Emblem -->
+      <div class="sacred-halo-container" id="sacredHaloContainer">
+        <div class="halo-beams-glow"></div>
+        <div class="halo-ray-layer rotating-rays"></div>
+        <div class="halo-glow-core"></div>
+        <div class="halo-inner-ring"></div>
+        <div class="halo-cross-silhouette">
+          <i class="fa-solid fa-cross"></i>
         </div>
-        <!-- Surrounding ray light burst -->
-        <div class="light-ray-burst" id="rayBurst"></div>
       </div>
 
-      <!-- Hero Typography content -->
-      <div class="hero-texts animate-fade-in">
-        <h1 class="hero-title" id="heroTitle">Jesus Songs & Lyrics</h1>
-        <p class="hero-subtitle" id="heroSubtitle">
-          Discover worship songs, praise songs, gospel songs, and inspirational lyrics that bring you closer to God.
-        </p>
+      <!-- Down Typography Heading under the Emblem -->
+      <div class="hero-texts">
+        <h2 class="hero-title-bottom" id="heroTitleBottom">Jesus Songs & Lyrics</h2>
       </div>
 
       <!-- Large Floating Search Bar inside Hero -->
-      <div class="search-wrapper animate-fade-in">
+      <div class="search-wrapper">
         <div class="search-bar-container">
           <i class="fa-solid fa-magnifying-glass search-icon"></i>
-          <input type="text" id="searchInput" class="search-input" placeholder="Search songs, lyrics, worship songs..." autocomplete="off">
-          <button id="clearSearchBtn" class="clear-search-btn" style="display: none;"><i class="fa-solid fa-xmark"></i></button>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search songs, lyrics, worship songs..."
+            autocomplete="off">
+          <button id="clearSearchBtn" class="clear-search-btn" style="display: none;"><i
+              class="fa-solid fa-xmark"></i></button>
           <button id="searchTriggerBtn" class="search-button">Search</button>
         </div>
         <!-- Live suggestion list popup -->
@@ -102,7 +75,7 @@
       </div>
 
     </div>
-    
+
     <!-- Hero Scroll Indicator -->
     <a href="#about" class="scroll-down-arrow" aria-label="Scroll Down">
       <i class="fa-solid fa-chevron-down"></i>
@@ -110,109 +83,170 @@
   </section>
 
   <div class="app-layout-container">
-    
+
     <!-- About Section ("Why Jesus Songs?") -->
     <section class="about-section" id="about">
       <div class="about-header text-center">
         <span class="sub-tag">SPIRITUAL REFLECTION</span>
         <h2 class="about-title">Why Jesus Songs?</h2>
         <p class="about-desc">
-          Jesus songs help believers worship, pray, meditate on God's word, and strengthen their faith. Through lyrics and music, people can experience encouragement, peace, hope, and spiritual growth.
+          Jesus songs help believers worship, pray, meditate on God's word, and strengthen their faith. Through lyrics
+          and music, people can experience encouragement, peace, hope, and spiritual growth.
         </p>
       </div>
 
       <!-- About Cards Grid with Custom Images -->
       <div class="about-icons-grid">
-        
-        <div class="about-card glass-card">
+
+        <div class="about-card glass-card clickable-reflection-card" data-reflection="worship" id="cardWorship">
           <div class="about-card-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=600" alt="Worship" class="about-card-img">
+            <img src="https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=600" alt="Worship"
+              class="about-card-img">
             <div class="about-card-icon-overlay"><i class="fa-solid fa-hands-praying"></i></div>
           </div>
           <h3>Worship</h3>
           <p>Express praise, thankfulness, and deep reverence to God with music that humbles the heart.</p>
         </div>
-        
-        <div class="about-card glass-card">
+
+        <div class="about-card glass-card clickable-reflection-card" data-reflection="praise" id="cardPraise">
           <div class="about-card-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=600" alt="Praise" class="about-card-img">
+            <img src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=600" alt="Praise"
+              class="about-card-img">
             <div class="about-card-icon-overlay"><i class="fa-solid fa-music"></i></div>
           </div>
           <h3>Praise</h3>
           <p>Sing joyous and uplifting anthems celebrating His marvelous works and saving grace.</p>
         </div>
 
-        <div class="about-card glass-card">
+        <div class="about-card glass-card clickable-reflection-card" data-reflection="prayer" id="cardPrayer">
           <div class="about-card-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1544764200-d834fd210a23?q=80&w=600" alt="Prayer" class="about-card-img">
+            <img src="https://images.unsplash.com/photo-1544764200-d834fd210a23?q=80&w=600" alt="Prayer"
+              class="about-card-img">
             <div class="about-card-icon-overlay"><i class="fa-solid fa-dove"></i></div>
           </div>
           <h3>Prayer</h3>
           <p>Let music bridge the gaps of your heart, communicating directly with God in times of need.</p>
         </div>
 
-        <div class="about-card glass-card">
+        <div class="about-card glass-card clickable-reflection-card" data-reflection="bible" id="cardBible">
           <div class="about-card-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1507444930787-91575e24a040?q=80&w=600" alt="Bible Study" class="about-card-img">
+            <img src="https://images.unsplash.com/photo-1504052434569-70ad58565b90?q=80&w=600" alt="Bible Study"
+              class="about-card-img">
             <div class="about-card-icon-overlay"><i class="fa-solid fa-book-bible"></i></div>
           </div>
           <h3>Bible</h3>
           <p>Meditate on scripture-inspired lyrics that anchor your faith in the eternal Word of God.</p>
         </div>
+
+        <div class="about-card glass-card clickable-reflection-card" data-reflection="faith" id="cardFaith">
+          <div class="about-card-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=600" alt="Faith"
+              class="about-card-img">
+            <div class="about-card-icon-overlay"><i class="fa-solid fa-cross"></i></div>
+          </div>
+          <h3>Faith</h3>
+          <p>Anchor your soul in hope and trust, believing in His promises and walking in His steadfast love.</p>
+        </div>
       </div>
     </section>
 
-    <!-- Categories Filter Pills Section -->
-    <section class="categories-section">
-      <div class="section-title-wrapper text-center">
-        <h2 class="section-heading">Filter by Categories</h2>
-        <p class="section-subtext">Click on any category to filter the song library instantly.</p>
-      </div>
-      
-      <div class="category-filters-container" id="categoryFilters">
-        <button class="filter-pill active" data-filter="all">All Songs</button>
-        <button class="filter-pill" data-filter="Worship Songs">Worship Songs</button>
-        <button class="filter-pill" data-filter="Praise Songs">Praise Songs</button>
-        <button class="filter-pill" data-filter="Gospel Songs">Gospel Songs</button>
-        <button class="filter-pill" data-filter="Prayer Songs">Prayer Songs</button>
-        <button class="filter-pill" data-filter="Christmas Songs">Christmas Songs</button>
-        <button class="filter-pill" data-filter="Revival Songs">Revival Songs</button>
-        <button class="filter-pill" data-filter="Youth Songs">Youth Songs</button>
-        <button class="filter-pill" data-filter="Telugu Songs">Telugu Songs</button>
-        <button class="filter-pill" data-filter="English Songs">English Songs</button>
+    <!-- Types of Songs Section -->
+    <section class="types-section" id="types">
+      <div class="types-header text-center">
+        <span class="sub-tag">EXPLORE SONG CATEGORIES</span>
+        <h2 class="types-title">Types of Songs</h2>
+        <p class="types-desc">
+          Click on any song type card below to display the list of corresponding lyrics instantly.
+        </p>
       </div>
 
-      <p class="songs-stats-text" style="text-align: center; color: var(--color-text-muted); font-size: 0.85rem; margin-top: 1rem; font-weight: 300;">
-        Songs matching current view: <span id="songCount">0</span>
-      </p>
+      <!-- Categories Cards Grid (8 Cards, 4 per row) -->
+      <div class="types-grid">
+        <div class="category-card active" data-category="all" id="catAll">
+          <div class="category-icon-wrapper">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
+          <h3>All Songs</h3>
+          <p>Browse our entire catalog of Telugu and English worship lyrics.</p>
+        </div>
+
+        <div class="category-card" data-category="Worship Songs" id="catWorship">
+          <div class="category-icon-wrapper">
+            <i class="fa-solid fa-hands-praying"></i>
+          </div>
+          <h3>Worship Songs</h3>
+          <p>Devotional and heart-felt melodies to worship the Lord.</p>
+        </div>
+
+        <div class="category-card" data-category="Praise Songs" id="catPraise">
+          <div class="category-icon-wrapper">
+            <i class="fa-solid fa-music"></i>
+          </div>
+          <h3>Praise Songs</h3>
+          <p>Joyful and uplifting songs of praise celebrating His goodness.</p>
+        </div>
+
+        <div class="category-card" data-category="Gospel Songs" id="catGospel">
+          <div class="category-icon-wrapper">
+            <i class="fa-solid fa-book-bible"></i>
+          </div>
+          <h3>Gospel Songs</h3>
+          <p>Scripture-inspired, doctrine-rich messages of truth.</p>
+        </div>
+
+        <div class="category-card" data-category="Prayer Songs" id="catPrayer">
+          <div class="category-icon-wrapper">
+            <i class="fa-solid fa-dove"></i>
+          </div>
+          <h3>Prayer Songs</h3>
+          <p>Personal and congregational prayers set to gentle tunes.</p>
+        </div>
+
+        <div class="category-card" data-category="Christmas Songs" id="catChristmas">
+          <div class="category-icon-wrapper">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <h3>Christmas Songs</h3>
+          <p>Festive carols celebrating the birth of our Savior Jesus Christ.</p>
+        </div>
+
+        <div class="category-card" data-category="Revival Songs" id="catRevival">
+          <div class="category-icon-wrapper">
+            <i class="fa-solid fa-fire"></i>
+          </div>
+          <h3>Revival Songs</h3>
+          <p>Uplifting anthems designed to spark spiritual renewal.</p>
+        </div>
+
+        <div class="category-card" data-category="Youth Songs" id="catYouth">
+          <div class="category-icon-wrapper">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+          <h3>Youth Songs</h3>
+          <p>Modern, energetic songs for young believers to sing.</p>
+        </div>
+      </div>
     </section>
 
     <!-- Song Library Grid -->
     <section class="song-library-section" id="library">
+      <div class="library-header text-center" style="margin-bottom: 2.5rem;">
+        <h2 class="library-heading-text" id="libraryHeading" style="font-size: 1.8rem; font-weight: 300; letter-spacing: 1px; color: var(--color-text-primary);">All Songs Library</h2>
+        <div style="width: 50px; height: 2px; background: var(--color-gold); margin: 0.8rem auto 0 auto;"></div>
+        <p class="library-description-text" id="libraryDescription" style="max-width: 720px; margin: 1.2rem auto 0 auto; color: var(--color-text-secondary); font-size: 0.95rem; font-weight: 300; line-height: 1.6;"></p>
+      </div>
+
       <div class="songs-grid" id="songsGrid">
         <!-- Rendered dynamically by app.js -->
-      </div>
-      
-      <!-- Center Button to add user-defined songs -->
-      <div class="add-song-cta text-center">
-        <button id="addSongBtn" class="btn-primary">
-          <i class="fa-solid fa-circle-plus"></i> Add Custom Song
-        </button>
       </div>
     </section>
 
     <!-- Average-sized Rectangular Footer Card -->
     <footer class="app-footer">
-      <div class="developer-rect-card glass-card">
-        <div class="rect-left">
+      <div class="developer-rect-card glass-card" style="justify-content: center; text-align: center;">
+        <div class="rect-left" style="text-align: center; width: 100%;">
           <span class="rect-tagline">Made with Faith and Love</span>
-          <h3 class="rect-developer">Developed by AV</h3>
-        </div>
-        <div class="rect-divider"></div>
-        <div class="rect-right">
-          <a href="https://abhishek-portfolio.example.com" target="_blank" class="portfolio-btn" id="portfolioLink">
-            Visit Abhishek Portfolio <i class="fa-solid fa-arrow-up-right-from-square"></i>
-          </a>
+          <h3 class="rect-developer" style="margin-top: 5px;">Developed by ABHISHEK</h3>
         </div>
       </div>
       <p class="copyright-note">Jesus Songs Worship Directory © 2026. All rights devoted to the Lord.</p>
@@ -223,14 +257,14 @@
   <!-- Full Lyric Sheet Slide-Out modal -->
   <div class="modal-overlay" id="lyricModal" aria-hidden="true">
     <div class="modal-content" role="dialog" aria-labelledby="modalTitle">
-      
+
       <!-- Modal Header -->
       <div class="modal-header">
         <div class="modal-header-info">
           <h2 class="modal-title" id="modalSongTitle">Song Lyrics</h2>
           <span class="modal-meta" id="modalSongMeta">Worship Songs</span>
         </div>
-        
+
         <div class="modal-header-controls">
           <button class="btn-circle-action" id="favoriteSongBtn" title="Add to Favorites" aria-label="Add to Favorites">
             <i class="fa-regular fa-heart"></i>
@@ -239,6 +273,12 @@
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
+      </div>
+
+      <!-- Lyrics Language Switcher Tabs -->
+      <div class="lyrics-lang-tabs" id="lyricsLangTabs">
+        <button class="lyrics-tab active" id="btnLyricTelugu">Telugu Script</button>
+        <button class="lyrics-tab" id="btnLyricEnglish">English Transliteration</button>
       </div>
 
       <!-- Modal Toolbar -->
@@ -258,7 +298,8 @@
         <div class="toolbar-group">
           <span class="toolbar-label">Text Size:</span>
           <button class="btn-tool" id="zoomOutBtn" title="Decrease Font Size">A-</button>
-          <button class="btn-tool" id="zoomNormalBtn" title="Reset Font Size"><i class="fa-solid fa-rotate-left"></i></button>
+          <button class="btn-tool" id="zoomNormalBtn" title="Reset Font Size"><i
+              class="fa-solid fa-rotate-left"></i></button>
           <button class="btn-tool" id="zoomInBtn" title="Increase Font Size">A+</button>
         </div>
       </div>
@@ -273,69 +314,28 @@
     </div>
   </div>
 
-  <!-- Contributor Form Modal (Add Song) -->
-  <div class="form-modal-overlay" id="addSongModal" aria-hidden="true">
-    <div class="form-modal-content" role="dialog" aria-labelledby="formTitle">
-      
-      <div class="form-modal-header">
-        <div class="form-modal-title" id="formTitle">Add Custom Jesus Song</div>
-        <button class="close-modal-btn" id="closeFormBtn" aria-label="Close Form">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
+  <!-- Spiritual Reflection Modal -->
+  <div class="modal-overlay" id="spiritualModal" aria-hidden="true">
+    <div class="modal-content spiritual-modal-content" role="dialog" aria-labelledby="spiritualModalTitle">
+      <div class="modal-header">
+        <div class="modal-header-info">
+          <span class="sub-tag" style="margin-bottom: 2px;">SPIRITUAL REFLECTION</span>
+          <h2 class="modal-title" id="spiritualModalTitle" style="font-family: var(--font-ui); font-size: 1.5rem;">Reflection</h2>
+        </div>
+        <div class="modal-header-controls">
+          <button class="close-modal-btn" id="closeSpiritualModalBtn" aria-label="Close Reflection View">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
       </div>
-
-      <form id="addSongForm" class="form-body" onsubmit="return false;">
-        <div class="form-group">
-          <label for="inputTitleTelugu" class="form-label">Song Title (Telugu Script) *</label>
-          <input type="text" id="inputTitleTelugu" class="form-control" placeholder="e.g., యెహోవా నా కాపరి" required>
+      <div class="spiritual-body-container" style="padding: 2.5rem 2rem; display: flex; flex-direction: column; gap: 1.5rem; overflow-y: auto; align-items: center; text-align: center;">
+        <div class="spiritual-graphic" id="spiritualGraphic" style="font-size: 3rem; color: var(--color-gold); filter: drop-shadow(0 0 10px rgba(244, 196, 84, 0.4)); margin-bottom: 0.5rem; animation: pulseGlow 3s infinite ease-in-out;">
+          <i class="fa-solid fa-hands-praying"></i>
         </div>
-
-        <div class="form-group">
-          <label for="inputTitleEnglish" class="form-label">Song Title (English Transliteration) *</label>
-          <input type="text" id="inputTitleEnglish" class="form-control" placeholder="e.g., Yehova Na Kaapari" required>
+        <div class="spiritual-text-content" id="spiritualTextContent" style="font-size: 1.05rem; line-height: 1.8; color: var(--color-text-secondary); font-weight: 300;">
+          <!-- Content injected dynamically -->
         </div>
-
-        <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-          <div>
-            <label for="selectCategory" class="form-label">Category *</label>
-            <select id="selectCategory" class="form-control" required>
-              <option value="Worship Songs">Worship Songs</option>
-              <option value="Praise Songs">Praise Songs</option>
-              <option value="Gospel Songs">Gospel Songs</option>
-              <option value="Prayer Songs">Prayer Songs</option>
-              <option value="Christmas Songs">Christmas Songs</option>
-              <option value="Revival Songs">Revival Songs</option>
-              <option value="Youth Songs">Youth Songs</option>
-            </select>
-          </div>
-          <div>
-            <label for="inputArtist" class="form-label">Singer / Writer</label>
-            <input type="text" id="inputArtist" class="form-control" placeholder="e.g., Yeshanna, Traditional">
-          </div>
-        </div>
-
-        <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-          <div>
-            <label for="inputKey" class="form-label">Musical Key</label>
-            <input type="text" id="inputKey" class="form-control" placeholder="e.g., F Major">
-          </div>
-          <div>
-            <label for="inputTempo" class="form-label">Tempo (BPM)</label>
-            <input type="text" id="inputTempo" class="form-control" placeholder="e.g., 75 BPM">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="textareaLyrics" class="form-label">Song Lyrics (Telugu Script) *</label>
-          <textarea id="textareaLyrics" class="form-control" placeholder="Paste the full Telugu lyrics here..." required></textarea>
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="btn-cancel" id="cancelFormBtn">Cancel</button>
-          <button type="submit" class="btn-save" id="saveSongBtn">Save Song</button>
-        </div>
-      </form>
-
+      </div>
     </div>
   </div>
 
@@ -343,4 +343,5 @@
   <script src="songs.js"></script>
   <script src="app.js"></script>
 </body>
+
 </html>
