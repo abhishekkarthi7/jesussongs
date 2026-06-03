@@ -924,12 +924,14 @@ a {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(5, 5, 7, 0.85);
+  background: rgba(5, 5, 7, 0.88);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   z-index: 1001;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
@@ -942,19 +944,22 @@ a {
 
 .modal-content {
   width: 100%;
-  max-width: 600px;
-  height: 100%;
+  max-width: 680px;
+  height: 85vh;
+  max-height: 780px;
   background: var(--color-bg-secondary);
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
-  transform: translateX(100%);
+  transform: scale(0.93);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
 }
 
 .modal-overlay.active .modal-content {
-  transform: translateX(0);
+  transform: scale(1);
 }
 
 .modal-header {
@@ -1563,5 +1568,85 @@ textarea.form-control {
     font-size: 14pt !important;
     line-height: 2 !important;
     white-space: pre-line !important;
+  }
+}
+
+/* Custom Responsive Rules for mobile devices and smaller screens */
+@media (max-width: 600px) {
+  .modal-overlay {
+    padding: 0.5rem;
+  }
+  .modal-content {
+    height: 94vh;
+    max-height: none;
+    border-radius: var(--radius-md);
+  }
+  .modal-header {
+    padding: 1.2rem 1.25rem;
+  }
+  .modal-title {
+    font-size: 1.2rem;
+  }
+  .modal-toolbar {
+    padding: 0.6rem 1.25rem;
+  }
+  .lyrics-body-container {
+    padding: 1.5rem 1.25rem;
+  }
+  .lyrics-lang-tabs {
+    padding: 0.6rem 1.25rem;
+  }
+  .lyrics-display {
+    font-size: 1.05rem;
+    line-height: 1.9;
+  }
+  
+  /* Song card wrapping on small screens */
+  .song-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 1.2rem;
+  }
+  .song-card-compact-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 1rem;
+  }
+  .song-card-compact-main {
+    width: 100%;
+  }
+  .song-card-compact-meta {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .song-read-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.72rem;
+  }
+  
+  /* Hero adjustments for extra small screens */
+  .hero-title-top {
+    font-size: 1.9rem;
+    margin-bottom: 1.2rem;
+  }
+  .hero-title-bottom {
+    font-size: 1.4rem;
+  }
+  .sacred-halo-container {
+    width: 180px;
+    height: 180px;
+  }
+  .halo-beams-glow {
+    width: 220px;
+    height: 220px;
+  }
+  .halo-inner-ring {
+    width: 110px;
+    height: 110px;
+  }
+  .halo-cross-silhouette {
+    font-size: 2.2rem;
   }
 }
