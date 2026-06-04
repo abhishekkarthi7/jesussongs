@@ -154,6 +154,8 @@ function detectCategory(slug, contentHtml) {
   return 'Gospel Songs';
 }
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 async function start() {
   console.log('=== Telugu Christian Lyrics Scraper ===');
   console.log('Fetching songs from christianlyricz.com API...');
@@ -161,15 +163,36 @@ async function start() {
   const songs = [];
   const songsPerRequest = 100;
   let page = 1;
+  let consecutiveErrors = 0;
   
   while (true) {
     try {
       const url = `https://christianlyricz.com/wp-json/wp/v2/posts?per_page=${songsPerRequest}&page=${page}`;
       console.log(`Fetching page ${page}...`);
-      const posts = await fetchJSON(url);
+      
+      // Retry logic (up to 3 attempts per page with a 2-second sleep between retries)
+      let posts = null;
+      let attempts = 0;
+      while (attempts < 3) {
+        try {
+          posts = await fetchJSON(url);
+          break; // Success, exit retry loop
+        } catch (err) {
+          attempts++;
+          // If it's a 400 Bad Request (end of pages), throw immediately without retrying
+          if (err.message.includes('Status Code 400')) {
+            throw err;
+          }
+          if (attempts >= 3) {
+            throw err; // Out of attempts, bubble error up to skip this page
+          }
+          console.warn(`[Warning] Attempt ${attempts} failed for page ${page}: ${err.message}. Retrying in 2 seconds...`);
+          await sleep(2000);
+        }
+      }
       
       if (!posts || posts.length === 0) {
-        console.log('No more posts returned.');
+        console.log('No more posts returned (empty response).');
         break;
       }
       
@@ -202,10 +225,28 @@ async function start() {
       
       console.log(`Current total: ${songs.length} songs parsed.`);
       page++;
+      consecutiveErrors = 0; // Reset error counter on success
+      
+      // Rate-limiting delay to prevent hammering the server
+      await sleep(1000);
       
     } catch (err) {
-      console.log(`Finished fetching. Stopped at page ${page} (Reason: ${err.message})`);
-      break;
+      if (err.message.includes('Status Code 400')) {
+        console.log(`Reached the end of available pages at page ${page} (Status Code 400).`);
+        break;
+      }
+      
+      console.error(`[Error] Failed to fetch page ${page} after 3 attempts:`, err.message);
+      
+      consecutiveErrors++;
+      if (consecutiveErrors > 3) {
+        console.log('Stopping fetching process due to 3 consecutive page failures.');
+        break;
+      }
+      
+      // Skip to next page to keep the rest of database intact
+      page++;
+      await sleep(2000);
     }
   }
   
