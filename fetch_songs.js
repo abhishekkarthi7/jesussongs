@@ -160,12 +160,12 @@ async function start() {
   
   const songs = [];
   const songsPerRequest = 100;
-  const targetPages = 15; // 15 pages x 100 per page = 1500 songs
+  let page = 1;
   
-  for (let page = 1; page <= targetPages; page++) {
+  while (true) {
     try {
       const url = `https://christianlyricz.com/wp-json/wp/v2/posts?per_page=${songsPerRequest}&page=${page}`;
-      console.log(`Fetching page ${page} of ${targetPages}...`);
+      console.log(`Fetching page ${page}...`);
       const posts = await fetchJSON(url);
       
       if (!posts || posts.length === 0) {
@@ -201,9 +201,11 @@ async function start() {
       }
       
       console.log(`Current total: ${songs.length} songs parsed.`);
+      page++;
       
     } catch (err) {
-      console.error(`Error on page ${page}:`, err.message);
+      console.log(`Finished fetching. Stopped at page ${page} (Reason: ${err.message})`);
+      break;
     }
   }
   
