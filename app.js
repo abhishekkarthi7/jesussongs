@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeCategory = 'all';
   let searchQuery = '';
   let favoriteSongs = JSON.parse(localStorage.getItem('fav_jesus_songs')) || [];
+  let displayedSongsCount = 40;
+  let searchTimeout = null;
 
   // --- DOM ELEMENTS ---
   const songsGrid = document.getElementById('songsGrid');
@@ -195,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Set active category value
         activeCategory = card.dataset.category;
+        displayedSongsCount = 40; // Reset scroll pagination count
         
         // Render filtered songs
         renderSongs();
@@ -208,24 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- 5. RENDER SONGS ---
-  function renderSongs() {
-    if (!songsGrid) return;
-
-    // Update library section heading text
-    if (libraryHeading) {
-      if (activeCategory === 'all') {
-        libraryHeading.textContent = "All Songs Library";
-      } else {
-        libraryHeading.textContent = `${activeCategory} Library`;
-      }
-    }
-    if (libraryDescription) {
-      const descKey = activeCategory.toLowerCase();
-      libraryDescription.innerHTML = CATEGORY_DESCRIPTIONS[descKey] || CATEGORY_DESCRIPTIONS['all'];
-    }
-
-    // Filter matching criteria (ignores language restriction to show all songs)
-    const filtered = allSongs.filter(song => {
+  function getFilteredSongs() {
+    return allSongs.filter(song => {
       // 1. Category Filter
       let matchCategory = true;
       if (activeCategory !== 'all') {
@@ -254,7 +241,25 @@ document.addEventListener('DOMContentLoaded', () => {
       
       return matchCategory && matchQuery;
     });
+  }
 
+  function renderSongs() {
+    if (!songsGrid) return;
+
+    // Update library section heading text
+    if (libraryHeading) {
+      if (activeCategory === 'all') {
+        libraryHeading.textContent = "All Songs Library";
+      } else {
+        libraryHeading.textContent = `${activeCategory} Library`;
+      }
+    }
+    if (libraryDescription) {
+      const descKey = activeCategory.toLowerCase();
+      libraryDescription.innerHTML = CATEGORY_DESCRIPTIONS[descKey] || CATEGORY_DESCRIPTIONS['all'];
+    }
+
+    const filtered = getFilteredSongs();
     songsGrid.innerHTML = '';
 
     if (filtered.length === 0) {
@@ -268,14 +273,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Append song cards dynamically
-    filtered.forEach(song => {
+    // Append first batch of song cards
+    const firstBatch = filtered.slice(0, displayedSongsCount);
+    appendSongs(firstBatch);
+  }
+
+  function appendSongs(songsList) {
+    songsList.forEach(song => {
       const card = document.createElement('article');
       card.className = 'song-card';
       
       const displayTitle = `<span class="telugu-title">${song.titleTelugu}</span><span class="translit-title">${song.titleEnglish}</span>`;
       const displayCategory = song.categoryEnglish || 'Worship';
-      const displayArtist = song.artistEnglish || 'Traditional';
 
       let iconClass = 'fa-music';
       if (displayCategory.toLowerCase().includes('worship')) iconClass = 'fa-hands-praying';
@@ -314,6 +323,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function loadMoreSongs() {
+    const filtered = getFilteredSongs();
+    if (displayedSongsCount < filtered.length) {
+      const nextBatch = filtered.slice(displayedSongsCount, displayedSongsCount + 40);
+      displayedSongsCount += 40;
+      appendSongs(nextBatch);
+    }
+  }
+
   // --- 6. INSTANT SEARCH SUGGESTIONS LOGIC ---
   function handleSearchInput(e) {
     searchQuery = e.target.value;
@@ -326,7 +344,12 @@ document.addEventListener('DOMContentLoaded', () => {
       suggestionBox.style.display = 'none';
     }
     
-    renderSongs();
+    // Debounce the heavy rendering logic
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      displayedSongsCount = 40; // reset pagination count on new search query
+      renderSongs();
+    }, 250);
   }
 
   function showSearchSuggestions() {
@@ -534,6 +557,11 @@ document.addEventListener('DOMContentLoaded', () => {
           appHeader.classList.remove('scrolled');
         }
       }
+
+      // Infinite scroll check
+      if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 300) {
+        loadMoreSongs();
+      }
     });
 
     // Search bar event listeners
@@ -544,6 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
       searchQuery = '';
       clearSearchBtn.style.display = 'none';
       suggestionBox.style.display = 'none';
+      displayedSongsCount = 40; // reset pagination count
       renderSongs();
       searchInput.focus();
     });
@@ -556,12 +585,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     searchTriggerBtn.addEventListener('click', () => {
+      displayedSongsCount = 40; // reset pagination count
       renderSongs();
       suggestionBox.style.display = 'none';
     });
 
     searchInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
+        displayedSongsCount = 40; // reset pagination count
         renderSongs();
         suggestionBox.style.display = 'none';
       }

@@ -31,7 +31,37 @@ function fetchHTML(url) {
   });
 }
 
-// Clean and extract lyrics from HTML tab content
+// Helper to make HTTPS requests for JSON APIs (christianlyricz.com)
+function fetchJSON(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+      }
+    }, (res) => {
+      if (res.statusCode !== 200) {
+        reject(new Error(`Failed to fetch JSON: Status Code ${res.statusCode}`));
+        return;
+      }
+
+      let data = '';
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }).on('error', (err) => {
+      reject(err);
+    });
+  });
+}
+
+// Clean and extract lyrics from HTML tab content (waytochurch.com)
 function cleanHtml(html) {
   if (!html) return '';
   let text = html.replace(/<br\s*\/?>/gi, '\n');
@@ -58,16 +88,90 @@ function cleanHtml(html) {
   return text.split('\n').map(line => line.trim()).join('\n').trim();
 }
 
+// Clean and extract lyrics from WordPress HTML content (christianlyricz.com)
+function extractLyrics(html) {
+  if (!html) return { telugu: '', english: '' };
+
+  let cleaned = html.replace(/<br\s*\/?>/gi, '\n');
+  cleaned = cleaned.replace(/<\/p>/gi, '\n');
+  cleaned = cleaned.replace(/<\/div>/gi, '\n');
+  cleaned = cleaned.replace(/<pre[^>]*>([\s\S]*?)<\/pre>/gi, (match, content) => {
+    return '\n' + content + '\n';
+  });
+
+  cleaned = cleaned.replace(/<[^>]+>/g, '');
+
+  cleaned = cleaned
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#8211;/g, '-')
+    .replace(/&#8230;/g, '...')
+    .replace(/&#160;/g, ' ')
+    .replace(/&#8216;/g, "'")
+    .replace(/&#8217;/g, "'")
+    .replace(/&#8220;/g, '"')
+    .replace(/&#8221;/g, '"')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"');
+
+  const lines = cleaned.split('\n').map(l => l.trim());
+
+  const teluguLines = [];
+  const englishLines = [];
+
+  for (let line of lines) {
+    if (!line) {
+      if (teluguLines.length > 0 && teluguLines[teluguLines.length - 1] !== '') {
+        teluguLines.push('');
+      }
+      if (englishLines.length > 0 && englishLines[englishLines.length - 1] !== '') {
+        englishLines.push('');
+      }
+      continue;
+    }
+
+    if (
+      line.includes('[wptab') || 
+      line.includes('[/wptab') || 
+      line.includes('Download Lyrics') || 
+      line.includes('Credits:') || 
+      line.includes('Chords Credits') ||
+      line.includes('Capo on') ||
+      line.startsWith('||') ||
+      /^[.\s-_]*$/.test(line)
+    ) {
+      continue;
+    }
+
+    if (/[\u0c00-\u0c7f]/.test(line)) {
+      teluguLines.push(line);
+    } else {
+      const isChordsLine = /^[A-G](maj|min|m|dim|aug|sus)?[2-9]?(\s+[A-G](maj|min|m|dim|aug|sus)?[2-9]?)*\s*$/i.test(line);
+      if (isChordsLine) {
+        continue;
+      }
+      englishLines.push(line);
+    }
+  }
+
+  let teluguLyrics = teluguLines.join('\n').trim();
+  let englishLyrics = englishLines.join('\n').trim();
+
+  if (!teluguLyrics && englishLyrics) teluguLyrics = englishLyrics;
+  if (!englishLyrics && teluguLyrics) englishLyrics = teluguLyrics;
+
+  return {
+    telugu: teluguLyrics,
+    english: englishLyrics
+  };
+}
+
 // Convert slug to a readable Title Case string
 function slugToTitle(slug) {
   if (!slug) return '';
-  // Replace dashes/underscores with spaces
   const cleaned = slug.replace(/[-_]+/g, ' ');
-  // Check if it has Telugu script characters
   if (/[\u0c00-\u0c7f]/.test(cleaned)) {
     return cleaned.trim();
   }
-  // Otherwise capitalize English words
   return cleaned
     .split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -122,9 +226,8 @@ async function runWithConcurrency(tasks, concurrencyLimit, workerFn) {
   await Promise.all(activeWorkers);
 }
 
-// Parse index page list items for Telugu and English indices
+// Parse index page list items for Telugu and English indices (waytochurch.com)
 function parseListPage(html, songsMap) {
-  // Parse Telugu index
   const mainIndexMatch = html.match(/id="mainindex"[^>]*>([\s\S]*?)<\/ul>/);
   if (mainIndexMatch) {
     const mainIndexBlock = mainIndexMatch[1];
@@ -150,7 +253,6 @@ function parseListPage(html, songsMap) {
     }
   }
 
-  // Parse English index
   const englishIndexMatch = html.match(/id="englishindex"[^>]*>([\s\S]*?)<\/ul>/);
   if (englishIndexMatch) {
     const englishIndexBlock = englishIndexMatch[1];
@@ -175,7 +277,7 @@ function parseListPage(html, songsMap) {
   }
 }
 
-// Extract pagination URLs of starting letters from the list page HTML
+// Extract pagination URLs of starting letters from the list page HTML (waytochurch.com)
 function getLetterUrls(html) {
   const urls = [];
   const letterRegex = /\/lyrics\/list\/Telugu-[^'"]+/gi;
@@ -183,7 +285,6 @@ function getLetterUrls(html) {
   while ((match = letterRegex.exec(html)) !== null) {
     const path = match[0];
     const url = 'https://waytochurch.com' + path;
-    // Exclude incomplete/empty links
     if (!urls.includes(url) && !path.endsWith('-') && !path.endsWith('%ef%bf%bd')) {
       urls.push(url);
     }
@@ -191,12 +292,121 @@ function getLetterUrls(html) {
   return urls;
 }
 
+// Helper to normalize string for duplicate checks
+function normalizeString(str) {
+  if (!str) return '';
+  return str
+    .toLowerCase()
+    .replace(/[^\u0c00-\u0c7fa-z0-9]/g, '')
+    .trim();
+}
+
+// Get the normalized title keys for a song
+function getTitleKeys(song) {
+  const keys = new Set();
+  if (song.titleTelugu) keys.add(normalizeString(song.titleTelugu));
+  if (song.titleEnglish) keys.add(normalizeString(song.titleEnglish));
+  return keys;
+}
+
+// Scrape and parse christianlyricz.com database
+async function scrapeChristianLyricz(existingKeys) {
+  console.log('\n=== Fetching unique songs from christianlyricz.com ===');
+  
+  const additionalSongs = [];
+  const songsPerRequest = 100;
+  let page = 1;
+  let consecutiveErrors = 0;
+  
+  while (true) {
+    try {
+      const url = `https://christianlyricz.com/wp-json/wp/v2/posts?per_page=${songsPerRequest}&page=${page}`;
+      console.log(`Fetching christianlyricz.com page ${page}...`);
+      
+      let posts = null;
+      let attempts = 0;
+      while (attempts < 3) {
+        try {
+          posts = await fetchJSON(url);
+          break;
+        } catch (err) {
+          attempts++;
+          if (err.message.includes('Status Code 400')) throw err;
+          if (attempts >= 3) throw err;
+          console.warn(`[Warning] Attempt ${attempts} failed for page ${page}. Retrying in 2 seconds...`);
+          await sleep(2000);
+        }
+      }
+      
+      if (!posts || posts.length === 0) {
+        break;
+      }
+      
+      for (const post of posts) {
+        const titleTelugu = post.title && post.title.rendered ? post.title.rendered.replace(/&#8211;/g, '-').trim() : '';
+        const titleEnglish = slugToTitle(post.slug);
+        
+        // Skip duplicate songs already fetched from waytochurch.com
+        const keys = [normalizeString(titleTelugu), normalizeString(titleEnglish)];
+        const isDuplicate = keys.some(k => k && existingKeys.has(k));
+        
+        if (isDuplicate) {
+          continue;
+        }
+        
+        const html = post.content && post.content.rendered ? post.content.rendered : '';
+        const { telugu, english } = extractLyrics(html);
+        
+        if (!telugu && !english) {
+          continue;
+        }
+        
+        const category = detectCategory(post.slug, html);
+        
+        additionalSongs.push({
+          id: `song-cl-${post.id}`, // Prefix to guarantee unique IDs
+          titleTelugu: titleTelugu || titleEnglish,
+          titleEnglish: titleEnglish,
+          categoryEnglish: category,
+          lyricsTelugu: telugu,
+          lyricsEnglish: english
+        });
+        
+        // Track the keys to avoid duplicate matches inside this run
+        keys.forEach(k => { if (k) existingKeys.add(k); });
+      }
+      
+      console.log(`Page ${page} parsed. Found ${additionalSongs.length} additional unique songs so far.`);
+      page++;
+      consecutiveErrors = 0;
+      await sleep(1000); // 1-second throttle
+      
+    } catch (err) {
+      if (err.message.includes('Status Code 400')) {
+        console.log('Reached end of available pages on christianlyricz.com.');
+        break;
+      }
+      
+      console.error(`[Error] Failed page ${page} on christianlyricz.com:`, err.message);
+      consecutiveErrors++;
+      if (consecutiveErrors > 3) {
+        console.log('Stopping christianlyricz.com fetch due to 3 consecutive errors.');
+        break;
+      }
+      page++;
+      await sleep(2000);
+    }
+  }
+  
+  return additionalSongs;
+}
+
 async function start() {
-  console.log('=== WayToChurch Song Scraper & Compiler ===');
+  console.log('=== Dual-Source Resilient Song Scraper ===');
   
   let songsMap = {};
   
-  // 1. Compile Song URLs / Metadata
+  // 1. Compile waytochurch.com index
   if (fs.existsSync('temp_song_list.json')) {
     console.log('Loading song metadata list from temp_song_list.json...');
     try {
@@ -244,7 +454,7 @@ async function start() {
     console.log(`Successfully compiled metadata list. Total unique songs: ${Object.keys(songsMap).length}`);
   }
   
-  // 2. Load already scraped songs progress
+  // 2. Load already scraped waytochurch.com songs progress
   let scrapedSongsMap = {};
   if (fs.existsSync('temp_scraped_songs.json')) {
     try {
@@ -306,7 +516,6 @@ async function start() {
         if (!lyricsEnglish && lyricsTelugu) lyricsEnglish = lyricsTelugu;
         
         if (lyricsTelugu || lyricsEnglish) {
-          // Detect category from slug/title & lyrics content
           const category = detectCategory(song.slug + ' ' + (song.titleEnglish || ''), lyricsTelugu);
           
           scrapedSongsMap[song.id] = {
@@ -321,7 +530,6 @@ async function start() {
       }
       
       completedCount++;
-      // Write progress log
       process.stdout.write(`\rProgress: ${completedCount}/${totalSongs} songs processed (${Math.round(completedCount/totalSongs*100)}%)...`);
       
       // Save progress to file every 50 songs
@@ -330,27 +538,47 @@ async function start() {
       }
     });
     
-    // Save final progress list
     fs.writeFileSync('temp_scraped_songs.json', JSON.stringify(scrapedSongsMap, null, 2), 'utf-8');
   }
   
-  // 4. Compile into songs.js
-  const finalSongsArray = Object.values(scrapedSongsMap);
-  console.log(`\n\nCompiling database... parsed ${finalSongsArray.length} songs total.`);
+  // 4. Build Title Keys Set from waytochurch database
+  const wayToChurchSongs = Object.values(scrapedSongsMap);
+  console.log(`\nWayToChurch database contains ${wayToChurchSongs.length} songs.`);
+  
+  const existingKeys = new Set();
+  for (const song of wayToChurchSongs) {
+    const keys = getTitleKeys(song);
+    for (const k of keys) {
+      if (k) existingKeys.add(k);
+    }
+  }
+  
+  // 5. Scrape and merge unique songs from christianlyricz.com
+  let christianLyriczSongs = [];
+  try {
+    christianLyriczSongs = await scrapeChristianLyricz(existingKeys);
+    console.log(`Found and parsed ${christianLyriczSongs.length} unique songs from christianlyricz.com.`);
+  } catch (err) {
+    console.error('Failed to parse christianlyricz.com database, proceeding with waytochurch.com only:', err.message);
+  }
+  
+  // 6. Combine and save to songs.js
+  const finalSongsArray = [...wayToChurchSongs, ...christianLyriczSongs];
+  console.log(`\nCompiling database... Combined total songs: ${finalSongsArray.length}`);
   
   if (finalSongsArray.length === 0) {
     console.error('Error: No songs were scraped successfully.');
     return;
   }
   
-  const finalFileContent = `// Automatically generated Telugu Christian songs database from waytochurch.com
+  const finalFileContent = `// Automatically generated Telugu Christian songs database (Combined waytochurch.com and christianlyricz.com)
 // Total songs: ${finalSongsArray.length}
 
 const INITIAL_SONGS = ${JSON.stringify(finalSongsArray, null, 2)};
 `;
   
   fs.writeFileSync('songs.js', finalFileContent, 'utf-8');
-  console.log('Successfully saved database to songs.js!');
+  console.log('Successfully saved combined database to songs.js!');
   
   // Cleanup temp files
   try {
